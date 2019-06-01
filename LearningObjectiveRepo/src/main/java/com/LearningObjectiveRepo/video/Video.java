@@ -14,9 +14,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
 //import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-//import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumn;
 
 @Entity
 public class Video {
@@ -39,7 +40,9 @@ public class Video {
 	@Column(name = "source_id")
 	private String sourceId;
 
-	@ManyToMany(fetch = FetchType.EAGER,cascade= CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER,cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+	@JoinTable(name="video_lo",joinColumns= {@JoinColumn(name="video_id")},inverseJoinColumns = {@JoinColumn(name="lo_id")}
+	)
 	private List<LearningObjective> lo = new ArrayList<LearningObjective>();
 
 	public Video() {

@@ -2,23 +2,23 @@ package com.LearningObjectiveRepo;
 
 public class ReqFormat {
 
-	private String vUrl;
-	private String lObj;
+	private String url;
+	private String lo;
 
-	public String getvUrl() {
-		return vUrl;
+	public String geturl() {
+		return url;
 	}
 
-	public void setvUrl(String vUrl) {
-		this.vUrl = vUrl;
+	public void seturl(String url) {
+		this.url = url;
 	}
 
-	public String getlObj() {
-		return lObj;
+	public String getlo() {
+		return lo;
 	}
 
-	public void setlObj(String lObj) {
-		this.lObj = lObj;
+	public void setlo(String lo) {
+		this.lo = lo;
 	}
 
 }

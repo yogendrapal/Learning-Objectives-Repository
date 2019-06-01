@@ -3,12 +3,15 @@ package com.LearningObjectiveRepo;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
@@ -35,7 +38,9 @@ public class LearningObjective {
 	@Column(name = "lo_objective")
 	private String lObjective;
 
-	@ManyToMany(fetch = FetchType.EAGER, mappedBy = "lo")
+	@ManyToMany(fetch = FetchType.EAGER,cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+	@JoinTable(name="video_lo",joinColumns= {@JoinColumn(name="lo_id")},inverseJoinColumns = {@JoinColumn(name="video_id")}
+			)
 	private List<Video> video = new ArrayList<Video>();
 
 	@OneToMany(mappedBy = "lo")
