@@ -23,8 +23,8 @@ public class LOController {
 
 	@RequestMapping(value = "/videos/los", method = RequestMethod.POST)
 	public void createVideo_Lo(@RequestBody ReqFormat rf) {
-		String url = rf.getvUrl();
-		String lObj = rf.getlObj();
+		String url = rf.geturl();
+		String lObj = rf.getlo();
 		String sourceId = null;
 		String source = null;
 
@@ -92,7 +92,7 @@ public class LOController {
 		return loService.readLoBySourceId(sourceId);
 	}
 
-	@RequestMapping(value = "/los/{source}/{sourceId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/los/video/{source}/{sourceId}", method = RequestMethod.GET)
 
 	public @ResponseBody List<LearningObjective> readLoBySource(@PathVariable String source,
 			@PathVariable String sourceId) {
@@ -121,5 +121,34 @@ public class LOController {
 		Long videoId = Long.parseLong(vId);
 		return loService.readVideoByVideoId(videoId);
 	}
+	
+	@RequestMapping(value="/los/{loId}",method = RequestMethod.PUT)
+	public void updateLoByLoId(@RequestBody Lo lo ,@PathVariable("loId") String id) {
+      
+		Long loId = Long.parseLong(id);
+		String lobj=lo.getLo();
+		 loService.updateLoByLoId(loId,lobj);
+	}
+	@RequestMapping(value="/videos/{videoId}",method = RequestMethod.PUT)
+	public void updateVideoByVideoId(@RequestBody video v ,@PathVariable("videoId") String id) {
+      
+		Long videoId = Long.parseLong(id);
+		String url=v.getUrl();
+		 loService.updateVideoByVideoId(videoId,url);
+	}
+	@RequestMapping(value="/los/{loId}",method = RequestMethod.DELETE)
+	public void deleteLoByLoId(@PathVariable("loId") String id) {
+      
+		Long loId = Long.parseLong(id);
+		System.out.println(loId);
+		 loService.deleteLoByLoId(loId);
+	}
+	@RequestMapping(value="/videos/{videoId}",method = RequestMethod.DELETE)
+	public void deleteVideoByVideoId(@PathVariable("videoId") String id) {
+      
+		Long videoId = Long.parseLong(id);
+		 loService.deleteVideoByVideoId(videoId);
+	}
+	
 
 }

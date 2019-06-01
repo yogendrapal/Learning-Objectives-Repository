@@ -29,7 +29,7 @@ public class LOService {
 			Video vNew = new Video(source, sourceId);
 			LearningObjective lNew = new LearningObjective(lObj);
 			vNew.getLo().add(lNew);
-			lNew.getVideo().add(vNew);
+			//lNew.getVideo().add(vNew);
 			loRepository.save(lNew);
 			vrepo.save(vNew);
 
@@ -39,7 +39,7 @@ public class LOService {
 
 			LearningObjective lNew = new LearningObjective(lObj);
 			v.getLo().add(lNew);
-			lNew.getVideo().add(v);
+			//lNew.getVideo().add(v);
 			loRepository.save(lNew);
 			vrepo.save(v);
 		}
@@ -48,7 +48,7 @@ public class LOService {
 
 			Video vNew = new Video(source, sourceId);
 			lo.getVideo().add(vNew);
-			vNew.getLo().add(lo);
+			//vNew.getLo().add(lo);
 			vrepo.save(vNew);
 			loRepository.save(lo);
 
@@ -124,5 +124,56 @@ public class LOService {
 		}
 		return null;
 	}
+
+	public void updateLoByLoId(Long loId, String lobj) {
+		LearningObjective lo= loRepository.findByLoId(loId);
+		if(lo == null) {
+		lo = new LearningObjective(lobj);	
+		}
+		else {
+		lo.setlObjective(lobj);
+		}
+		loRepository.save(lo);
+	}
+
+	public void updateVideoByVideoId(Long videoId, String url) {
+	Video v = vrepo.findByVideoId(videoId);
+	String sourceId = null;
+	String source = null;
+	Map<String, String> map = VideoIdFromURL.getUrlId(url);
+	for (Map.Entry<String, String> entry : map.entrySet()) {
+		source = entry.getKey();
+		sourceId = entry.getValue();
+		}
+	if(v == null) {
+		v = new Video (source,sourceId);
+	}
+	else
+	{
+		v.setSource(source);
+		v.setSourceId(sourceId);
+	}
+	vrepo.save(v);
+		
+	}
+
+	public void deleteLoByLoId(Long loId) {
+		LearningObjective lo = loRepository.findByLoId(loId);
+		
+		if(lo!=null) {
+		
+			//lo.getVideo().clear();
+		 // loRepository.delete(lo);
+		  loRepository.deleteFromLo(loId);
+		
+	}
+		}
+	public void deleteVideoByVideoId(Long vId) {
+		Video v = vrepo.findByVideoId(vId);
+		
+		if(v!=null)
+		vrepo.deleteFromVideo(vId);
+	}
+   
 
 }
