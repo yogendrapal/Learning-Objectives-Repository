@@ -233,13 +233,14 @@ public class LOService {
 	   * @param learning objective Id
 	   */
 	
-	public void deleteLoByLoId(Long loId) {
+	public Boolean deleteLoByLoId(Long loId) {
 		LearningObjective lo = loRepository.findByLoId(loId);
 		
 		if(lo!=null) {
-		
-		  loRepository.deleteFromLo(loId);
-		}
+		 loRepository.deleteFromLo(loId);
+		 return true;
+		  }
+		return false;
 }
 	
 	/**
@@ -248,11 +249,58 @@ public class LOService {
 	   * @param videoId
 	   */
 	
-	public void deleteVideoByVideoId(Long vId) {
+	public Boolean deleteVideoByVideoId(Long vId) {
 		Video v = vrepo.findByVideoId(vId);
-		
-		if(v!=null)
+		if(v!=null) {
 		vrepo.deleteFromVideo(vId);
+		return true;
+		}
+		return false;
+	}
+
+
+	public void setLoChild(Long loId, Long childId) {
+	LearningObjective plo=loRepository.findByLoId(loId);
+	LearningObjective clo=loRepository.findByLoId(childId);
+	plo.getLo_child().add(clo);
+	clo.setLo_parent(plo);
+    loRepository.save(plo);
+    loRepository.save(clo);
+	}
+
+
+	public List<LearningObjective> getLoChild(Long loId) {
+		LearningObjective lo = loRepository.findByLoId(loId);
+		if(lo==null)
+		return null;
+		 return lo.getLo_child();
+	}
+
+
+	public LearningObjective deleteChildrenByLoId(Long loId) {
+		LearningObjective lo = loRepository.findByLoId(loId);
+		if(lo != null && !(lo.getLo_child().isEmpty()))
+		{
+		for(LearningObjective l:lo.getLo_child()) {
+			l.setLo_parent(null);
+		}
+			lo.getLo_child().clear();
+		loRepository.save(lo);
+		return lo;
+		}
+		return null;
+		
+	}
+
+
+	public LearningObjective deleteChildByLoId(Long childId) {
+		LearningObjective clo = loRepository.findByLoId(childId);
+		if(clo!=null) {
+		clo.setLo_parent(null);
+		loRepository.save(clo);
+		  return clo;
+		}
+		return null;
 	}
    
 

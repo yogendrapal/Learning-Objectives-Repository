@@ -30,7 +30,7 @@ public class LOController {
 	   */
 	
 	@RequestMapping(value = "/videos/los", method = RequestMethod.POST)
-	public void createVideo_Lo(@RequestBody ReqFormat rf) {
+	public String createVideo_Lo(@RequestBody ReqFormat rf) {
 		String url = rf.geturl();
 		String lObj = rf.getlo();
 		String sourceId = null;
@@ -43,6 +43,7 @@ public class LOController {
 		}
 
 		loService.createVideo_Lo(lObj, source, sourceId);
+		return "Video and it's corresponding learning objective submitted successfully";
 
 	}
 
@@ -70,9 +71,10 @@ public class LOController {
 	   */
 	
 	@RequestMapping(value = "/los", method = RequestMethod.POST)
-	public void createLO(@RequestBody Lo lobj) {
+	public String createLO(@RequestBody Lo lobj) {
 		String lo = lobj.getLo();
 		loService.createLo(lo);
+		return "Learning objective submitted successfully";
 
 	}
 
@@ -99,9 +101,10 @@ public class LOController {
 	   */
 	
 	@RequestMapping(value = "/videos", method = RequestMethod.POST)
-	public void createVideo(@RequestBody video v) {
+	public String createVideo(@RequestBody video v) {
 		String url = v.getUrl();
 		loService.createVideo(url);
+		return "video submitted successfully";
 
 	}
 
@@ -183,7 +186,7 @@ public class LOController {
 		Long videoId = Long.parseLong(vId);
 		Video v= loService.readVideoByVideoId(videoId);
 		if(v==null)
-			throw new ResourceNotFoundException("Learning Objective id not found - " + loId);
+			throw new ResourceNotFoundException("video id not found - " + vId);
 		return v;
 	}
 	
@@ -195,11 +198,12 @@ public class LOController {
 	   */
 	
 	@RequestMapping(value="/los/{loId}",method = RequestMethod.PUT)
-	public void updateLoByLoId(@RequestBody Lo lo ,@PathVariable("loId") String id) {
+	public String updateLoByLoId(@RequestBody Lo lo ,@PathVariable("loId") String id) {
       
 		Long loId = Long.parseLong(id);
 		String lobj=lo.getLo();
 		 loService.updateLoByLoId(loId,lobj);
+		 return "Learning objective updated successfully";
 	}
 	
 	/**
@@ -210,11 +214,12 @@ public class LOController {
 	   */
 	
 	@RequestMapping(value="/videos/{videoId}",method = RequestMethod.PUT)
-	public void updateVideoByVideoId(@RequestBody video v ,@PathVariable("videoId") String id) {
+	public String updateVideoByVideoId(@RequestBody video v ,@PathVariable("videoId") String id) {
       
 		Long videoId = Long.parseLong(id);
 		String url=v.getUrl();
 		 loService.updateVideoByVideoId(videoId,url);
+		 return "Video updated successfully";
 	}
 	
 	 /**
@@ -224,11 +229,15 @@ public class LOController {
 	   */
 	
 	@RequestMapping(value="/los/{loId}",method = RequestMethod.DELETE)
-	public void deleteLoByLoId(@PathVariable("loId") String id) {
+	public String deleteLoByLoId(@PathVariable("loId") String id) {
       
 		Long loId = Long.parseLong(id);
-		System.out.println(loId);
-		 loService.deleteLoByLoId(loId);
+	    Boolean b= loService.deleteLoByLoId(loId);
+	    if(b)
+		   return "Deleted learning objective having id "+loId;
+	    else
+	    	throw new ResourceNotFoundException("learning objective id not found - " + loId);
+    	
 	}
 	
 	/**
@@ -238,12 +247,59 @@ public class LOController {
 	   */
 	
 	@RequestMapping(value="/videos/{videoId}",method = RequestMethod.DELETE)
-	public void deleteVideoByVideoId(@PathVariable("videoId") String id) {
+	public String deleteVideoByVideoId(@PathVariable("videoId") String id) {
       
 		Long videoId = Long.parseLong(id);
-		 loService.deleteVideoByVideoId(videoId);
+		Boolean b= loService.deleteVideoByVideoId(videoId);
+		  if(b)
+			   return "Deleted video having id "+videoId;
+		    else
+		    	throw new ResourceNotFoundException("video id not found - " + videoId);
 	}
 	
+	@RequestMapping(value="/los/{loId}/children/{childId}",method=RequestMethod.POST)
+	public String setLoChild(@PathVariable("loId") String lId,@PathVariable("childId") String chId)
+	{
+		Long loId=Long.parseLong(lId);
+		Long childId=Long.parseLong(chId);
+		loService.setLoChild(loId,childId);
+		return "Child learning objective added successfully";
+		
+	}
+	@RequestMapping(value="/los/{loId}/children",method=RequestMethod.GET)
+	public @ResponseBody List<LearningObjective> getLoChild(@PathVariable("loId") String lId)
+	{
+		Long loId=Long.parseLong(lId);
+		List<LearningObjective> lo=loService.getLoChild(loId);
+		System.out.println(lo);
+		System.out.println(lo.size());
+		if(lo.isEmpty()||lo==null)
+			throw new ResourceNotFoundException("Learning Objective id not found - " + loId);
+		else
+	    	return lo;
+		
+	}
+	@RequestMapping(value="/los/{loId}/children",method = RequestMethod.DELETE)
+	public String deleteChildrenByLoId(@PathVariable("loId") String lid) {
+      
+		Long loId = Long.parseLong(lid);
+		LearningObjective lo = loService.deleteChildrenByLoId(loId);
+		  if(lo!=null)
+			   return "Deleted children for parent having id "+loId;
+		    else
+		    	throw new ResourceNotFoundException("Deletion of children is not possible for the given id - " + loId);
+	}
+	
+	@RequestMapping(value="/los/children/{cId}",method = RequestMethod.DELETE)
+	public String deleteChildByLoId(@PathVariable("cId") String chid) {
+      
+		Long childId = Long.parseLong(chid);
+		LearningObjective lo = loService.deleteChildByLoId(childId);
+		  if(lo!=null)
+			   return "child having id "+childId+" is deleted";
+		    else
+		    	throw new ResourceNotFoundException("Deletion not possible for the given id - " + childId);
+	}
 	
 }
 	
