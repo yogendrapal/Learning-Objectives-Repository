@@ -44,8 +44,9 @@ public class LearningObjective {
 			)
 	private List<Video> video = new ArrayList<Video>();
 
-	@OneToMany(mappedBy = "lo")
-	private List<Taxonomy> taxonomy = new ArrayList<>();
+	@ManyToOne
+	@JoinColumn(name="taxo_id")
+	private Taxonomy taxonomy ;
 	
 	@ManyToOne
 	@JoinColumn(name="lo_parent")
@@ -64,11 +65,14 @@ public class LearningObjective {
 			)
 	private List<LearningObjective> lo_sibling = new ArrayList<LearningObjective>();
 
-	public @JsonIgnore List<Taxonomy> getTaxonomy() {
+
+
+
+	public @JsonIgnore Taxonomy getTaxonomy() {
 		return taxonomy;
 	}
 
-	public void setTaxonomy(List<Taxonomy> taxonomy) {
+	public void setTaxonomy(Taxonomy taxonomy) {
 		this.taxonomy = taxonomy;
 	}
 
