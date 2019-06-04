@@ -19,19 +19,18 @@ public class LOService {
 	@Autowired
 	private VideoRepository vrepo;
 
-	
-	 /**
-	   * Create videos and their corresponding learning objectives.
-	   *
-	   * @param learning objective, video source and video source Id
-	   */
-	
+	/**
+	 * Create videos and their corresponding learning objectives.
+	 *
+	 * @param learning objective, video source and video source Id
+	 */
+
 	public void createVideo_Lo(String lObj, String source, String sourceId) {
 
 		Video v = vrepo.findBySourceId(sourceId);
 		LearningObjective lo = loRepository.findByLObjective(lObj);
 
-		//Both video and lo are absent in database
+		// Both video and lo are absent in database
 		if (v == null && lo == null) {
 
 			Video vNew = new Video(source, sourceId);
@@ -42,7 +41,7 @@ public class LOService {
 
 		}
 
-		//Video present but lo is not
+		// Video present but lo is not
 		else if (v != null && lo == null) {
 
 			LearningObjective lNew = new LearningObjective(lObj);
@@ -51,7 +50,7 @@ public class LOService {
 			vrepo.save(v);
 		}
 
-		//Lo is present in database but not the video
+		// Lo is present in database but not the video
 		else if (v == null && lo != null) {
 
 			Video vNew = new Video(source, sourceId);
@@ -60,17 +59,15 @@ public class LOService {
 			loRepository.save(lo);
 
 		}
-		
 
 	}
 
+	/**
+	 * Create learning objectives.
+	 *
+	 * @param learning objective
+	 */
 
-	 /**
-	   * Create learning objectives.
-	   *
-	   * @param learning objective
-	   */
-	
 	public void createLo(String lObj) {
 		LearningObjective lo = loRepository.findByLObjective(lObj);
 		if (lo == null) {
@@ -80,19 +77,18 @@ public class LOService {
 
 	}
 
+	/**
+	 * Create video.
+	 *
+	 * @param video url
+	 */
 
-	 /**
-	   * Create video.
-	   *
-	   * @param video url
-	   */
-	
 	public void createVideo(String url) {
 		String sourceId = null;
 		String source = null;
-		
-		//Splitting video url into source and source id
-		Map<String, String> map = VideoIdFromURL.getUrlId(url); 
+
+		// Splitting video url into source and source id
+		Map<String, String> map = VideoIdFromURL.getUrlId(url);
 		for (Map.Entry<String, String> entry : map.entrySet()) {
 			source = entry.getKey();
 			sourceId = entry.getValue();
@@ -105,13 +101,12 @@ public class LOService {
 
 	}
 
+	/**
+	 * Read learning objectives corresponding to a particular video source Id.
+	 *
+	 * @param video source Id
+	 */
 
-	 /**
-	   * Read learning objectives corresponding to a particular video source Id.
-	   *
-	   * @param video source Id
-	   */
-	
 	public List<LearningObjective> readLoBySourceId(String sourceId) {
 
 		Video v = vrepo.findBySourceId(sourceId);
@@ -122,11 +117,12 @@ public class LOService {
 	}
 
 	/**
-	   * Read learning objectives corresponding to a particular video source and sourceId.
-	   *
-	   * @param video source and its sourceId
-	   */
-	
+	 * Read learning objectives corresponding to a particular video source and
+	 * sourceId.
+	 *
+	 * @param video source and its sourceId
+	 */
+
 	public List<LearningObjective> readLoBySource(String source, String sourceId) {
 		List<Video> video = vrepo.findBySource(source);
 		for (Video v : video) {
@@ -138,11 +134,11 @@ public class LOService {
 	}
 
 	/**
-	   * Read learning objective corresponding to a particular loId.
-	   *
-	   * @param learning objective Id
-	   */
-	
+	 * Read learning objective corresponding to a particular loId.
+	 *
+	 * @param learning objective Id
+	 */
+
 	public LearningObjective readLoByLoId(Long loId) {
 		LearningObjective lo = loRepository.findByLoId(loId);
 		if (lo != null) {
@@ -153,11 +149,11 @@ public class LOService {
 	}
 
 	/**
-	   * Read list of videos corresponding to a particular loId.
-	   *
-	   * @param learning objective Id
-	   */
-	
+	 * Read list of videos corresponding to a particular loId.
+	 *
+	 * @param learning objective Id
+	 */
+
 	public List<Video> readVideoByLoId(Long loId) {
 		LearningObjective lo = loRepository.findByLoId(loId);
 		if (lo != null) {
@@ -166,13 +162,12 @@ public class LOService {
 		return null;
 	}
 
-	
 	/**
-	   * Read video corresponding to a particular videoId.
-	   *
-	   * @param videoId
-	   */
-	
+	 * Read video corresponding to a particular videoId.
+	 *
+	 * @param videoId
+	 */
+
 	public Video readVideoByVideoId(Long videoId) {
 		Video v = vrepo.findByVideoId(videoId);
 		if (v != null) {
@@ -182,78 +177,169 @@ public class LOService {
 	}
 
 	/**
-	   * Update learning objective corresponding to a particular loId.
-	   *
-	   * @param learning objective, loId
-	   */
-	
+	 * Update learning objective corresponding to a particular loId.
+	 *
+	 * @param learning objective, loId
+	 */
+
 	public void updateLoByLoId(Long loId, String lobj) {
-		LearningObjective lo= loRepository.findByLoId(loId);
-		if(lo == null) {
-		lo = new LearningObjective(lobj);	
-		}
-		else {
-		lo.setlObjective(lobj);
+		LearningObjective lo = loRepository.findByLoId(loId);
+		if (lo == null) {
+			lo = new LearningObjective(lobj);
+		} else {
+			lo.setlObjective(lobj);
 		}
 		loRepository.save(lo);
 	}
 
 	/**
-	   * Update video corresponding to a particular videoId.
-	   *
-	   * @param videoId and video url
-	   */
-	
+	 * Update video corresponding to a particular videoId.
+	 *
+	 * @param videoId and video url
+	 */
+
 	public void updateVideoByVideoId(Long videoId, String url) {
-	Video v = vrepo.findByVideoId(videoId);
-	String sourceId = null;
-	String source = null;
-	
-	//Splitting video url into source and source Id
-	Map<String, String> map = VideoIdFromURL.getUrlId(url);
-	for (Map.Entry<String, String> entry : map.entrySet()) {
-		source = entry.getKey();
-		sourceId = entry.getValue();
+		Video v = vrepo.findByVideoId(videoId);
+		String sourceId = null;
+		String source = null;
+
+		// Splitting video url into source and source Id
+		Map<String, String> map = VideoIdFromURL.getUrlId(url);
+		for (Map.Entry<String, String> entry : map.entrySet()) {
+			source = entry.getKey();
+			sourceId = entry.getValue();
 		}
-	if(v == null) {
-		v = new Video (source,sourceId);
+		if (v == null) {
+			v = new Video(source, sourceId);
+		} else {
+			v.setSource(source);
+			v.setSourceId(sourceId);
+		}
+		vrepo.save(v);
+
 	}
-	else
-	{
-		v.setSource(source);
-		v.setSourceId(sourceId);
-	}
-	vrepo.save(v);
-		
-	}
-	
+
 	/**
-	   * Delete learning objective corresponding to a particular loId.
-	   *
-	   * @param learning objective Id
-	   */
-	
-	public void deleteLoByLoId(Long loId) {
+	 * Delete learning objective corresponding to a particular loId.
+	 *
+	 * @param learning objective Id
+	 */
+
+	public Boolean deleteLoByLoId(Long loId) {
 		LearningObjective lo = loRepository.findByLoId(loId);
-		
-		if(lo!=null) {
-		
-		  loRepository.deleteFromLo(loId);
+
+		if (lo != null) {
+			loRepository.deleteFromLo(loId);
+			return true;
 		}
-}
-	
-	/**
-	   * Delete video corresponding to a particular videoId.
-	   *
-	   * @param videoId
-	   */
-	
-	public void deleteVideoByVideoId(Long vId) {
-		Video v = vrepo.findByVideoId(vId);
-		
-		if(v!=null)
-		vrepo.deleteFromVideo(vId);
+		return false;
 	}
-   
+
+	/**
+	 * Delete video corresponding to a particular videoId.
+	 *
+	 * @param videoId
+	 */
+
+	public Boolean deleteVideoByVideoId(Long vId) {
+		Video v = vrepo.findByVideoId(vId);
+		if (v != null) {
+			vrepo.deleteFromVideo(vId);
+			return true;
+		}
+		return false;
+	}
+
+	public void setLoChild(Long loId, Long childId) {
+		LearningObjective plo = loRepository.findByLoId(loId);
+		LearningObjective clo = loRepository.findByLoId(childId);
+		plo.getLo_child().add(clo);
+		clo.setLo_parent(plo);
+		loRepository.save(plo);
+		loRepository.save(clo);
+	}
+
+	public List<LearningObjective> getLoChild(Long loId) {
+		LearningObjective lo = loRepository.findByLoId(loId);
+		if (lo == null)
+			return null;
+		return lo.getLo_child();
+	}
+
+	public LearningObjective deleteChildrenByLoId(Long loId) {
+		LearningObjective lo = loRepository.findByLoId(loId);
+		if (lo != null && !(lo.getLo_child().isEmpty())) {
+			for (LearningObjective l : lo.getLo_child()) {
+				l.setLo_parent(null);
+			}
+			lo.getLo_child().clear();
+			loRepository.save(lo);
+			return lo;
+		}
+		return null;
+
+	}
+
+	public LearningObjective deleteChildByLoId(Long childId) {
+		LearningObjective clo = loRepository.findByLoId(childId);
+		if (clo != null) {
+			clo.setLo_parent(null);
+			loRepository.save(clo);
+			return clo;
+		}
+		return null;
+	}
+
+	public Boolean setLoSibling(Long loId, Long sibId) {
+		LearningObjective lo = loRepository.findByLoId(loId);
+		LearningObjective sibLo = loRepository.findByLoId(sibId);
+		if (lo == null || sibLo == null)
+			return false;
+		lo.getLo_sibling().add(sibLo);
+		// sibLo.getLo_sibling().add(lo);
+		loRepository.save(lo);
+		// loRepository.save(sibLo);
+		return true;
+
+	}
+
+	public List<LearningObjective> getLoSibling(Long loId) {
+		LearningObjective lo = loRepository.findByLoId(loId);
+		if (lo != null)
+			return lo.getLo_sibling();
+		return null;
+	}
+
+	public LearningObjective deleteSiblingByLoId(Long loId) {
+		LearningObjective lo = loRepository.findByLoId(loId);
+		if (lo != null) {
+			lo.getLo_sibling().clear();
+			loRepository.save(lo);
+		}
+		return null;
+	}
+
+	public Boolean deleteSiblingBySiblingId(Long loId, Long sibId) {
+		LearningObjective lo = loRepository.findByLoId(loId);
+		LearningObjective slo = loRepository.findByLoId(sibId);
+		if (lo == null || slo == null)
+			return false;
+		for (LearningObjective l : lo.getLo_sibling()) {
+			if (l == slo) {
+				lo.getLo_sibling().remove(l);
+				break;
+			}
+		}
+		for (LearningObjective l : slo.getLo_sibling()) {
+			if (l == lo) {
+				slo.getLo_sibling().remove(l);
+				break;
+			}
+		}
+		loRepository.save(lo);
+		loRepository.save(slo);
+		return true;
+
+	}
 
 }

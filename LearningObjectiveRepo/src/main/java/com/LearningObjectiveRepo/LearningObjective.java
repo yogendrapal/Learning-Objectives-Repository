@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.LearningObjectiveRepo.taxonomy.Taxonomy;
@@ -43,8 +44,69 @@ public class LearningObjective {
 			)
 	private List<Video> video = new ArrayList<Video>();
 
-	@OneToMany(mappedBy = "lo")
-	private List<Taxonomy> taxonomy = new ArrayList<>();
+	@ManyToOne
+	@JoinColumn(name="taxo_id")
+	private Taxonomy taxonomy ;
+	
+	@ManyToOne
+	@JoinColumn(name="lo_parent")
+	private LearningObjective lo_parent;
+
+	@OneToMany(mappedBy="lo_parent")
+	private List<LearningObjective> lo_child = new ArrayList<LearningObjective>();
+	
+	@ManyToMany
+	@JoinTable(name="lo_sibling",joinColumns= {@JoinColumn(name="lo_id")},inverseJoinColumns = {@JoinColumn(name="sibling_id")}
+			)
+	private List<LearningObjective> lobj = new ArrayList<LearningObjective>();
+
+	@ManyToMany
+	@JoinTable(name="lo_sibling",joinColumns= {@JoinColumn(name="sibling_id")},inverseJoinColumns = {@JoinColumn(name="lo_id")}
+			)
+	private List<LearningObjective> lo_sibling = new ArrayList<LearningObjective>();
+
+
+
+
+	public @JsonIgnore Taxonomy getTaxonomy() {
+		return taxonomy;
+	}
+
+	public void setTaxonomy(Taxonomy taxonomy) {
+		this.taxonomy = taxonomy;
+	}
+
+	public @JsonIgnore LearningObjective getLo_parent() {
+		return lo_parent;
+	}
+
+	public void setLo_parent(LearningObjective lo_parent) {
+		this.lo_parent = lo_parent;
+	}
+
+	public @JsonIgnore List<LearningObjective> getLo_child() {
+		return lo_child;
+	}
+
+	public void setLo_child(List<LearningObjective> lo_child) {
+		this.lo_child = lo_child;
+	}
+
+	public @JsonIgnore List<LearningObjective> getLobj() {
+		return lobj;
+	}
+
+	public void setLobj(List<LearningObjective> lobj) {
+		this.lobj = lobj;
+	}
+
+	public @JsonIgnore List<LearningObjective> getLo_sibling() {
+		return lo_sibling;
+	}
+
+	public void setLo_sibling(List<LearningObjective> lo_sibling) {
+		this.lo_sibling = lo_sibling;
+	}
 
 	public long getLoId() {
 		return loId;

@@ -12,6 +12,7 @@ import javax.persistence.OneToMany;
 
 import com.LearningObjectiveRepo.LearningObjective;
 import com.LearningObjectiveRepo.level.Level;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class Taxonomy {
 	@Id
@@ -20,9 +21,8 @@ public class Taxonomy {
 	@Column(name="taxo_name")
 	private String taxoName;
 	
-	@ManyToOne
-	@JoinColumn(name="lo_id")
-	private LearningObjective lo;
+	@OneToMany(mappedBy="taxonomy")
+	private List<LearningObjective> lo=new ArrayList<>();
 	
 	@OneToMany(mappedBy="taxo")
 	private List<Level> level = new ArrayList<>();
@@ -43,13 +43,15 @@ public class Taxonomy {
 		this.taxoName = taxoName;
 	}
 
-	public LearningObjective getLo() {
+	public @JsonIgnore List<LearningObjective> getLo() {
 		return lo;
 	}
 
-	public void setLo(LearningObjective lo) {
+	public void setLo(List<LearningObjective> lo) {
 		this.lo = lo;
 	}
+
+	
 	
 	
 }
