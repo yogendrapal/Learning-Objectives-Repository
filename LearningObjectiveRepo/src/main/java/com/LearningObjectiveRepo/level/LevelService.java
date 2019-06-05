@@ -6,11 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.LearningObjectiveRepo.taxonomy.Taxonomy;
+import com.LearningObjectiveRepo.taxonomy.TaxonomyRepository;
 @Service
 public class LevelService {
 
 	@Autowired
 	private LevelRepository levelRepository;
+	@Autowired
+	private TaxonomyRepository tRepository;
 	public void createLevel(Level lvl) {
 		Level level = levelRepository.findByLevelName(lvl.getLevelName());
 		if(level==null)
