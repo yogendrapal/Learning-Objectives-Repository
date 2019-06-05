@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.LearningObjectiveRepo.LearningObjective;
 import com.LearningObjectiveRepo.ExceptionHandling.ResourceNotFoundException;
-import com.LearningObjectiveRepo.LOController.Lo;
-
 @RestController
 @RequestMapping(value = "/api/taxonomies")
 public class TaxonomyController {

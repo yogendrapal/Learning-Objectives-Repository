@@ -28,9 +28,11 @@ public class Users {
     }
 
     public Users(Users users) {
+        //this.active = users.getActive();
         this.email = users.getEmail();
         this.roles = users.getRoles();
         this.name = users.getName();
+       // this.lastName =users.getLastName();
         this.id = users.getId();
         this.password = users.getPassword();
     }
@@ -67,7 +69,6 @@ public class Users {
         this.name = name;
     }
 
-   
 
     public Set<Role> getRoles() {
         return roles;

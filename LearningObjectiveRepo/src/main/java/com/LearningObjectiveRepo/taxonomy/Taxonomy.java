@@ -8,8 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.LearningObjectiveRepo.LearningObjective;
@@ -63,6 +61,14 @@ public class Taxonomy {
 
 	public void setLo(List<LearningObjective> lo) {
 		this.lo = lo;
+	}
+
+	public @JsonIgnore List<Level> getLevel() {
+		return level;
+	}
+
+	public void setLevel(List<Level> level) {
+		this.level = level;
 	}
 
 	
