@@ -51,6 +51,14 @@ public class Taxonomy {
 		this.lo = lo;
 	}
 
+	public @JsonIgnore List<Level> getLevel() {
+		return level;
+	}
+
+	public void setLevel(List<Level> level) {
+		this.level = level;
+	}
+
 	
 	
 	

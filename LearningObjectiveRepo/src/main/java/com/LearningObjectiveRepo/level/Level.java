@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -18,11 +20,12 @@ import com.LearningObjectiveRepo.verb.Verb;
 @Entity
 public class Level {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="level_id")
-	private String levelId;
+	private Long levelId;
 	@Column(name="level_name")
 	private String levelName;
-	
+
 	@ManyToOne
 	@JoinColumn(name="taxo_id")
 	private Taxonomy taxo;
@@ -32,11 +35,11 @@ public class Level {
 
 	
 
-	public String getLevelId() {
+	public Long getLevelId() {
 		return levelId;
 	}
 
-	public void setLevelId(String levelId) {
+	public void setLevelId(Long levelId) {
 		this.levelId = levelId;
 	}
 
