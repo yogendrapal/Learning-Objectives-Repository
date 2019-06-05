@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -16,8 +18,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class Taxonomy {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="taxo_id")
-	private String taxoId;
+	private Long taxoId;
 	@Column(name="taxo_name")
 	private String taxoName;
 	
@@ -27,11 +30,22 @@ public class Taxonomy {
 	@OneToMany(mappedBy="taxo")
 	private List<Level> level = new ArrayList<>();
 
-	public String getTaxoId() {
+
+
+	public Taxonomy() {
+		super();
+	}
+
+	public Taxonomy(String taxoName) {
+		super();
+		this.taxoName = taxoName;
+	}
+
+	public Long getTaxoId() {
 		return taxoId;
 	}
 
-	public void setTaxoId(String taxoId) {
+	public void setTaxoId(Long taxoId) {
 		this.taxoId = taxoId;
 	}
 
