@@ -28,11 +28,9 @@ public class Users {
     }
 
     public Users(Users users) {
-        this.active = users.getActive();
         this.email = users.getEmail();
         this.roles = users.getRoles();
         this.name = users.getName();
-        this.lastName =users.getLastName();
         this.id = users.getId();
         this.password = users.getPassword();
     }
@@ -69,21 +67,7 @@ public class Users {
         this.name = name;
     }
 
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public int getActive() {
-        return active;
-    }
-
-    public void setActive(int active) {
-        this.active = active;
-    }
+   
 
     public Set<Role> getRoles() {
         return roles;
