@@ -5,6 +5,7 @@ package com.LearningObjectiveRepo.level;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,6 +17,7 @@ import javax.persistence.OneToMany;
 
 import com.LearningObjectiveRepo.taxonomy.Taxonomy;
 import com.LearningObjectiveRepo.verb.Verb;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Level {
@@ -26,14 +28,20 @@ public class Level {
 	@Column(name="level_name")
 	private String levelName;
 
-	@ManyToOne
+	@ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	@JoinColumn(name="taxo_id")
 	private Taxonomy taxo;
 	
-	@OneToMany(mappedBy="level")
+	@OneToMany(mappedBy="level",cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	private List<Verb> verb = new ArrayList<>();
-
+	public Level() {
+		
+	}
 	
+	public Level(String levelName) {
+		super();
+		this.levelName = levelName;
+	}
 
 	public Long getLevelId() {
 		return levelId;
@@ -51,7 +59,7 @@ public class Level {
 		this.levelName = levelName;
 	}
 
-	public List<Verb> getVerb() {
+	public @JsonIgnore  List<Verb> getVerb() {
 		return verb;
 	}
 
@@ -59,7 +67,7 @@ public class Level {
 		this.verb = verb;
 	}
 
-	public Taxonomy getTaxo() {
+	public @JsonIgnore Taxonomy getTaxo() {
 		return taxo;
 	}
 

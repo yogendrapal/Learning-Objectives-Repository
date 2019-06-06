@@ -56,8 +56,36 @@ public class LevelController {
 	@RequestMapping(value = "/{levelid}", method = RequestMethod.PUT)
 	public String updateLevelByLevelId(@RequestBody Level lvl,@PathVariable("levelid")String levelId) {
 		Long lId = Long.parseLong(levelId);
-         levelService.updateLevelByLevelId(lvl,lId);
+         Boolean b = levelService.updateLevelByLevelId(lvl,lId);
+         if(b)
 		return "Udpdated successfully";
+         throw new ResourceNotFoundException("Level having name -  "+lvl.getLevelName()+" already present." );
 	}
+	@RequestMapping(value = "/{levelid}/taxonomies/{taxoid}", method = RequestMethod.PUT)
+	public String updateLevelByLevelId(@PathVariable("levelid")String levelId,@PathVariable("taxoid")String taxoId) {
+		Long lId = Long.parseLong(levelId);
+		Long tId = Long.parseLong(taxoId);
+         Boolean b = levelService.updateLevelByLevelId(lId,tId);
+         if(b)
+		return "Udpdated successfully";
+ 		throw new ResourceNotFoundException("Udpdation not possible");
+	}
+	@RequestMapping(value = "/{levelid}", method = RequestMethod.DELETE)
+	public String deleteLevelByLevelId(@PathVariable("levelid")String levelId) {
+		Long lId = Long.parseLong(levelId);
+         Boolean b = levelService.deleteLevelByLevelId(lId);
+        if(b)
+		return "Deleted successfully";
+        throw new ResourceNotFoundException("Level Id is not valid");
+	}
+	@RequestMapping(value = "taxonomies/{taxoid}", method = RequestMethod.DELETE)
+	public String deleteLevelTaxoId(@PathVariable("taxoid")String taxoId) {
+		Long tId = Long.parseLong(taxoId);
+         Boolean b = levelService.deleteLevelByTaxoId(tId);
+        if(b)
+		return "Deleted successfully";
+        throw new  ResourceNotFoundException("Taxonomy Id is not valid");
+	}
+	
     
 }

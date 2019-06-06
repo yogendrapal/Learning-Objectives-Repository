@@ -56,8 +56,10 @@ public class TaxonomyController {
 
 		Long taxoId = Long.parseLong(id);
 		String taxoName = t.getTaxo();
-		taxoService.updateTaxoByTaxoId(taxoId, taxoName);
-		return "Learning objective updated successfully";
+		Boolean b = taxoService.updateTaxoByTaxoId(taxoId, taxoName);
+		if(b)
+		return "taxonomy updated successfully";
+		throw new ResourceNotFoundException("Taxonomy having name - " + taxoName+ " already present");
 	}
 	
 	@RequestMapping(value="/los/{loId}",method=RequestMethod.POST)
@@ -120,8 +122,8 @@ public class TaxonomyController {
 	public String deleteTaxoByTaxoId(@PathVariable ("taxoId") String tid)
 	{
 		Long taxoId = Long.parseLong(tid);
-		Taxonomy t=taxoService.deleteTaxoByTaxoId(taxoId);
-		if(t==null)
+		Boolean b=taxoService.deleteTaxoByTaxoId(taxoId);
+		if(!b)
 			throw new ResourceNotFoundException("Taxonomy Id not found -  "+taxoId);
 		else
 			return "Taxonomy deleted having Id - "+taxoId;
@@ -129,7 +131,7 @@ public class TaxonomyController {
 	}
 	
 	@RequestMapping(value="/los/{loId}",method=RequestMethod.DELETE)
-	public String deleteTaxoByLoId(@PathVariable ("looId") String lid)
+	public String deleteTaxoByLoId(@PathVariable ("loId") String lid)
 	{
 		Long loId = Long.parseLong(lid);
 		Boolean b=taxoService.deleteTaxoByLoId(loId);

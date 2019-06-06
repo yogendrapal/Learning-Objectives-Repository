@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.LearningObjectiveRepo.LORepository;
 import com.LearningObjectiveRepo.LearningObjective;
+import com.LearningObjectiveRepo.level.Level;
+import com.LearningObjectiveRepo.level.LevelRepository;
 
 @Service
 public class TaxonomyService {
@@ -16,6 +18,9 @@ public class TaxonomyService {
 	
 	@Autowired
 	private LORepository loRepository;
+	
+	@Autowired
+	private LevelRepository lRepository;
 	
 	public void createTaxo(String taxo) {
 	Taxonomy t=tRepository.findByTaxoName(taxo);
@@ -33,15 +38,18 @@ public class TaxonomyService {
 
 	return null;
 	}
-	public void updateTaxoByTaxoId(Long taxoId, String taxoName) {
+	public Boolean updateTaxoByTaxoId(Long taxoId, String taxoName) {
 		Taxonomy t = tRepository.findByTaxoId(taxoId);
-		if (t == null) {
-			t = new Taxonomy(taxoName);
-		} else {
+		Taxonomy tn = tRepository.findByTaxoName(taxoName);
+		if(tn != null)
+			return false;
+		if (t != null && tn==null) {
 			t.setTaxoName(taxoName);
+		} else if(t==null && tn==null){
+			t = new Taxonomy(taxoName);
 		}
 		tRepository.save(t);
-		
+		return true;
 	}
 	public Boolean createTaxoByLoId(String taxo, Long loId) {
 		LearningObjective lo=loRepository.findByLoId(loId);
@@ -116,14 +124,29 @@ public class TaxonomyService {
 			return false;
 	}
 	
-	public Taxonomy deleteTaxoByTaxoId(Long taxoId) {
+	public Boolean deleteTaxoByTaxoId(Long taxoId) {
 		Taxonomy t=tRepository.findByTaxoId(taxoId);
 		if(t!=null) {
-		t.getLo().clear();
-		tRepository.delete(t);
-		return t;
+	   
+	   
+	    for(LearningObjective lo:t.getLo())
+	    {
+	           lo.setTaxonomy(null);
+	    	   loRepository.save(lo);
+	       
+	    }
+	    t.getLo().clear();
+	    for(Level l:t.getLevel())
+	    {
+	          l.setTaxo(null);
+	    	   lRepository.save(l);
+	       
+	    }
+	    t.getLevel().clear();
+		tRepository.deleteFromTaxo(taxoId);
+		return true;
 		}
-		return null;
+		return false;
 	}
 	public Boolean deleteTaxoByLoId(Long loId) {
 		LearningObjective lo=loRepository.findByLoId(loId);
