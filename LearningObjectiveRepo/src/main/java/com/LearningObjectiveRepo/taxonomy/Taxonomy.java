@@ -3,6 +3,7 @@ package com.LearningObjectiveRepo.taxonomy;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,10 +23,10 @@ public class Taxonomy {
 	@Column(name="taxo_name")
 	private String taxoName;
 	
-	@OneToMany(mappedBy="taxonomy")
+	@OneToMany(mappedBy="taxonomy",cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	private List<LearningObjective> lo=new ArrayList<>();
 	
-	@OneToMany(mappedBy="taxo")
+	@OneToMany(mappedBy="taxo",cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	private List<Level> level = new ArrayList<>();
 
 

@@ -1,30 +1,46 @@
 package com.LearningObjectiveRepo.verb;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.LearningObjectiveRepo.level.Level;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Verb {
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="verb_id")
-	private String verbId;
+	private Long verbId;
 	@Column(name="verb_name")
 	private String verbName;
 	
-	@ManyToOne 
+	@ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	@JoinColumn(name="level_id")
 	private Level level;
 
-	public String getVerbId() {
+
+
+	public Verb() {
+		super();
+	}
+
+	public Verb(String verbName) {
+		super();
+		this.verbName = verbName;
+	}
+
+	public Long getVerbId() {
 		return verbId;
 	}
 
-	public void setVerbId(String verbId) {
+	public void setVerbId(Long verbId) {
 		this.verbId = verbId;
 	}
 
@@ -36,7 +52,7 @@ public class Verb {
 		this.verbName = verbName;
 	}
 
-	public Level getLevel() {
+	public @JsonIgnore Level getLevel() {
 		return level;
 	}
 

@@ -44,11 +44,11 @@ public class LearningObjective {
 			)
 	private List<Video> video = new ArrayList<Video>();
 
-	@ManyToOne
+	@ManyToOne(cascade={CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	@JoinColumn(name="taxo_id")
 	private Taxonomy taxonomy ;
 	
-	@ManyToOne
+	@ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	@JoinColumn(name="lo_parent")
 	private LearningObjective lo_parent;
 
