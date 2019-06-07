@@ -91,7 +91,7 @@ public class LevelService {
 				l.setTaxo(null);
 				levelRepository.save(l);
 				}
-			tRepository.save(t);
+		
 			return true;
 		}
 		return false;
