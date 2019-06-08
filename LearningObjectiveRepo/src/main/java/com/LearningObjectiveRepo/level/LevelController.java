@@ -62,10 +62,10 @@ public class LevelController {
          throw new ResourceNotFoundException("Level having name -  "+lvl.getLevelName()+" already present." );
 	}
 	@RequestMapping(value = "/{levelid}/taxonomies/{taxoid}", method = RequestMethod.PUT)
-	public String updateLevelByLevelId(@PathVariable("levelid")String levelId,@PathVariable("taxoid")String taxoId) {
+	public String updateLevelByTaxoId(@PathVariable("levelid")String levelId,@PathVariable("taxoid")String taxoId) {
 		Long lId = Long.parseLong(levelId);
 		Long tId = Long.parseLong(taxoId);
-         Boolean b = levelService.updateLevelByLevelId(lId,tId);
+         Boolean b = levelService.updateLevelBytaxoId(lId,tId);
          if(b)
 		return "Udpdated successfully";
  		throw new ResourceNotFoundException("Udpdation not possible");

@@ -51,7 +51,6 @@ public class LearningObjective {
 	@ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	@JoinColumn(name="lo_parent")
 	private LearningObjective lo_parent;
-
 	@OneToMany(mappedBy="lo_parent")
 	private List<LearningObjective> lo_child = new ArrayList<LearningObjective>();
 	

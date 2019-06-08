@@ -41,7 +41,7 @@ public class LevelService {
 	    return null;
 	}
 	public List<Level> getLevelByTaxoId(Long tId) {
-		Taxonomy taxo = tRepository.findLevelByTaxoId(tId);
+		Taxonomy taxo = tRepository.findByTaxoId(tId);
 		List<Level> lvl = taxo.getLevel();
 		if(lvl==null)
 		 return null;
@@ -96,10 +96,10 @@ public class LevelService {
 		}
 		return false;
 	}
-	public Boolean updateLevelByLevelId(Long levelId, Long taxoId) {
+	public Boolean updateLevelBytaxoId(Long levelId, Long taxoId) {
 		Level l = levelRepository.findByLevelId(levelId);
 		Taxonomy t = tRepository.findByTaxoId(taxoId);
-		if(l!=null&t!=null) {
+		if(l!=null && t!=null) {
 		l.setTaxo(t);
 		levelRepository.save(l);
 		return true;
