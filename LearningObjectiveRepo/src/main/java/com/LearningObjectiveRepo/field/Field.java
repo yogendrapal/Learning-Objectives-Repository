@@ -2,9 +2,12 @@ package com.LearningObjectiveRepo.field;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -14,12 +17,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-//import javax.persistence.OneToMany;
-
+import javax.persistence.MappedSuperclass;
 //import com.LearningObjectiveRepo.category.Category;
 import com.LearningObjectiveRepo.domain.Domain;
 import com.LearningObjectiveRepo.subject.Subject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+
+
+
 
 @Entity
 public class Field {
@@ -27,7 +33,18 @@ public class Field {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "field_id")
-	private long fieldId;
+	protected long fieldId;
+	public long getFieldId() {
+		return fieldId;
+	}
+
+	public void setFieldId(long fieldId) {
+		this.fieldId = fieldId;
+		
+		
+		
+}
+	
 	
 	@Column(name = "field_name")
 	private String fieldName;
@@ -78,6 +95,7 @@ public class Field {
 	public Field(String fieldName) {
 		super();
 		this.fieldName = fieldName;
+		
 	}
 
 	public void setDomain(Domain domain) {

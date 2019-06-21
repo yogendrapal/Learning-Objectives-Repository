@@ -1,4 +1,4 @@
-/*
+
 package com.LearningObjectiveRepo.category;
 
 import java.io.Serializable;
@@ -8,42 +8,56 @@ import javax.persistence.Embeddable;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
-@Embeddable
-public class CategoryId implements Serializable{
-	
+public class CategoryId implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	private Integer domainId;
-	private Integer fieldId;
-	private Integer subjectId;
-	private Integer topicId;
-	
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "category_id")
-	private long categoryId;
-	public Integer getDomainId() {
+	private Long domainId;
+	private Long fieldId;
+	private Long subjectId;
+	private Long topicId;
+
+	public Long getDomainId() {
 		return domainId;
 	}
-	public void setDomainId(Integer domainId) {
+
+	public void setDomainId(Long domainId) {
 		this.domainId = domainId;
 	}
-	public Integer getFieldId() {
-		return fieldId;
-	}
-	public void setFieldId(Integer fieldId) {
+
+	public CategoryId(Long domainId, Long fieldId, Long subjectId, Long topicId) {
+		super();
+		this.domainId = domainId;
 		this.fieldId = fieldId;
-	}
-	public Integer getSubjectId() {
-		return subjectId;
-	}
-	public void setSubjectId(Integer subjectId) {
 		this.subjectId = subjectId;
-	}
-	public Integer getTopicId() {
-		return topicId;
-	}
-	public void setTopicId(Integer topicId) {
 		this.topicId = topicId;
 	}
 
+	public Long getFieldId() {
+		return fieldId;
+	}
+
+	public void setFieldId(Long fieldId) {
+		this.fieldId = fieldId;
+	}
+
+	public Long getSubjectId() {
+		return subjectId;
+	}
+
+	public void setSubjectId(Long subjectId) {
+		this.subjectId = subjectId;
+	}
+
+	public Long getTopicId() {
+		return topicId;
+	}
+
+	public void setTopicId(Long topicId) {
+		this.topicId = topicId;
+	}
+
+	public CategoryId() {
+		super();
+	}
+
 }
-*/

@@ -5,13 +5,16 @@ package com.LearningObjectiveRepo.level;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -27,6 +30,18 @@ public class Level {
 	private Long levelId;
 	@Column(name="level_name")
 	private String levelName;
+
+	@Basic(fetch = FetchType.LAZY)
+	@Lob
+	@Column(length=5000)
+	private byte[]  levelDescription =new byte[0];
+	
+
+	public Level(String levelName, byte[] levelDescription) {
+		super();
+		this.levelName = levelName;
+		this.levelDescription = levelDescription;
+	}
 
 	@ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	@JoinColumn(name="taxo_id")

@@ -1,7 +1,9 @@
 package com.LearningObjectiveRepo;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,8 +18,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-//import com.LearningObjectiveRepo.category.Category;
+import com.LearningObjectiveRepo.category.Category;
 import com.LearningObjectiveRepo.taxonomy.Taxonomy;
+import com.LearningObjectiveRepo.type.Type;
 import com.LearningObjectiveRepo.video.Video;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -56,8 +59,7 @@ public class LearningObjective {
 	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
 	@JoinColumn(name = "lo_parent")
 	private LearningObjective lo_parent;
-
-	@OneToMany(mappedBy = "lo_parent")
+	@OneToMany(mappedBy="lo_parent")
 	private List<LearningObjective> lo_child = new ArrayList<LearningObjective>();
 
 	@ManyToMany
@@ -69,6 +71,29 @@ public class LearningObjective {
 	@JoinTable(name = "lo_sibling", joinColumns = { @JoinColumn(name = "sibling_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "lo_id") })
 	private List<LearningObjective> lo_sibling = new ArrayList<LearningObjective>();
+
+	@ManyToMany(fetch = FetchType.EAGER,cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+	@JoinTable(name="lo_category",joinColumns= {@JoinColumn(name="lo_id")},inverseJoinColumns = {
+ 		   @JoinColumn(name="domainId"),
+ 		   @JoinColumn(name="fieldId"),
+ 		   @JoinColumn(name="subjectId"),
+ 		   @JoinColumn(name="topicId")})
+	private Set<Category> category = new HashSet<>();
+	
+	@ManyToMany(fetch = FetchType.EAGER,cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+	@JoinTable(name="lo_type",joinColumns= {@JoinColumn(name="lo_id")},inverseJoinColumns = {
+ 		   @JoinColumn(name="taxoId"),
+ 		   @JoinColumn(name="levelId"),
+ 		   @JoinColumn(name="verbId")})
+	private Set<Type> type = new HashSet<>();
+
+	public Set<Type> getType() {
+		return type;
+	}
+
+	public void setType(Set<Type> type) {
+		this.type = type;
+	}
 
 	public @JsonIgnore Taxonomy getTaxonomy() {
 		return taxonomy;
@@ -124,6 +149,14 @@ public class LearningObjective {
 
 	public void setlObjective(String lObjective) {
 		this.lObjective = lObjective;
+	}
+
+	public Set<Category> getCategory() {
+		return category;
+	}
+
+	public void setCategory(Set<Category> category) {
+		this.category = category;
 	}
 
 	public @JsonIgnore List<Video> getVideo() {

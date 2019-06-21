@@ -1,5 +1,6 @@
 package com.LearningObjectiveRepo.taxonomy;
 
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import com.LearningObjectiveRepo.LORepository;
 import com.LearningObjectiveRepo.LearningObjective;
 import com.LearningObjectiveRepo.level.Level;
 import com.LearningObjectiveRepo.level.LevelRepository;
+import com.LearningObjectiveRepo.taxonomy.TaxonomyController.Taxo;
 
 @Service
 public class TaxonomyService {
@@ -22,11 +24,13 @@ public class TaxonomyService {
 	@Autowired
 	private LevelRepository lRepository;
 	
-	public void createTaxo(String taxo) {
-	Taxonomy t=tRepository.findByTaxoName(taxo);
+	public void createTaxo(Taxo t2) {
+	Taxonomy t=tRepository.findByTaxoName(t2.getTaxoName());
 	if(t==null)
 	{
-		t=new Taxonomy(taxo);
+		String encodedString = Base64.getEncoder().encodeToString(t2.getTaxodescription().getBytes());
+		byte[] decodedBytes = Base64.getDecoder().decode(encodedString);
+		t=new Taxonomy(t2.getTaxoName(),decodedBytes);
 		tRepository.save(t);
 	}
 	}
