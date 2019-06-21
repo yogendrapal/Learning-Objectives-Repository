@@ -1,10 +1,12 @@
 package com.LearningObjectiveRepo.level;
 
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.LearningObjectiveRepo.level.LevelController.level;
 import com.LearningObjectiveRepo.taxonomy.Taxonomy;
 import com.LearningObjectiveRepo.taxonomy.TaxonomyRepository;
 import com.LearningObjectiveRepo.verb.Verb;
@@ -19,10 +21,13 @@ public class LevelService {
 	@Autowired
 	private VerbRepository vRepository;
 	
-	public void createLevel(Level lvl) {
+	public void createLevel(level lvl) {
 		Level level = levelRepository.findByLevelName(lvl.getLevelName());
 		if(level==null) {
-		levelRepository.save(lvl);
+			String encodedString = Base64.getEncoder().encodeToString(lvl.getLevelDescription().getBytes());
+			byte[] decodedBytes = Base64.getDecoder().decode(encodedString);
+		    level=new Level(lvl.getLevelName(),decodedBytes);
+			levelRepository.save(level);
 		}
 	}
 	public Taxonomy createLevelByTaxonomy(Long taxoId,Level lvl) {

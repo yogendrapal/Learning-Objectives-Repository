@@ -3,6 +3,7 @@ package com.LearningObjectiveRepo.field;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,25 +11,32 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.LearningObjectiveRepo.ExceptionHandling.ResourceNotFoundException;
+import com.LearningObjectiveRepo.UserAccounts.Message;
 import com.LearningObjectiveRepo.domain.Domain;
 
 
 @RestController
-@RequestMapping(value="/api/fields")
+@RequestMapping(value="/api/secured/fields")
 public class FieldController {
 
 	@Autowired
 	private FieldService fService;
 	
+	@PreAuthorize("hasAnyRole('Admin','Reviewer')")
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public String createField(@RequestBody Field field) {
+	public Message createField(@RequestBody Field field) {
 		Boolean b=fService.createField(field);
+		Message m=new Message();
+		
 		if(b)
-		return "Field submitted successfully";
+			m.setMessage("Field submitted successfully");
+			
 		else
-			return "Field Name already exists.";
+			m.setMessage("Field Name already exists.");
+		return m;
 	}
 	
+	@PreAuthorize("hasAnyRole('Admin','Reviewer','Creator')")
 	@RequestMapping(value = "/{fieldId}", method = RequestMethod.GET)
 	public Field readFieldByFieldId(@PathVariable ("fieldId") String fId) {
 		Long fieldId=Long.parseLong(fId);
@@ -38,33 +46,49 @@ public class FieldController {
 		return f;
 	}
 	
+	@PreAuthorize("hasAnyRole('Admin','Reviewer')")
 	@RequestMapping(value = "/{fieldId}", method = RequestMethod.PUT)
-	public String updateFieldByFieldId(@RequestBody Field field,@PathVariable ("fieldId") String fId) {
+	public Message updateFieldByFieldId(@RequestBody Field field,@PathVariable ("fieldId") String fId) {
 		Long fieldId=Long.parseLong(fId);
 		Boolean b=fService.updateFieldByFieldId(field,fieldId);
 		if(b)
-			return "Udpdated successfully";
+			{
+			Message m=new Message();
+			m.setMessage("Field updated successfully");
+			return m;
+			}
         throw new ResourceNotFoundException("Field having name -  "+field.getFieldName()+" already present." );
 	}
 	
+	@PreAuthorize("hasAnyRole('Admin')")
 	@RequestMapping(value = "/{fieldId}", method = RequestMethod.DELETE)
-	public String deleteFieldByFieldId(@PathVariable("fieldId")String fId) {
+	public Message deleteFieldByFieldId(@PathVariable("fieldId")String fId) {
 		Long fieldId = Long.parseLong(fId);
          Boolean b = fService.deleteFieldByFieldId(fieldId);
         if(b)
-		return "Deleted successfully";
+		{
+        	Message m=new Message();
+			m.setMessage("Field deleted successfully");
+			return m;
+		}
         throw new ResourceNotFoundException("Field Id is not valid");
 	}
 	
+	@PreAuthorize("hasAnyRole('Admin','Reviewer')")
 	@RequestMapping(value = "/domains/{domainId}", method = RequestMethod.POST)
-	public String createFieldByDomain(@PathVariable("domainId") String dId ,@RequestBody Field field) {
+	public Message createFieldByDomain(@PathVariable("domainId") String dId ,@RequestBody Field field) {
 		Long domainId = Long.parseLong(dId);
 		Domain d = fService.createFieldByDomain(domainId,field);
 		if(d!=null)
-		return "Field submitted successfully";
+		{
+			Message m=new Message();
+			m.setMessage("Field submitted successfully");
+			return m;
+		}
 		else throw new ResourceNotFoundException("Domain id is not present");
 	}
 	
+	@PreAuthorize("hasAnyRole('Admin','Reviewer','Creator')")
 	@RequestMapping(value = "domains/{domainId}", method = RequestMethod.GET)
 	public List<Field> getFieldByDomainId(@PathVariable("domainId")String dId) {
 		Long domainId = Long.parseLong(dId);
@@ -77,34 +101,49 @@ public class FieldController {
 		return f;
 	}
 	
+	@PreAuthorize("hasAnyRole('Admin','Reviewer')")
 	@RequestMapping(value = "/domains/{domainId}", method = RequestMethod.PUT)
-	public String updateFieldByDomainId(@RequestBody Field field, @PathVariable("domainId") String did) {
+	public Message updateFieldByDomainId(@RequestBody Field field, @PathVariable("domainId") String did) {
 
 		Long domainId = Long.parseLong(did);
 		
 		Boolean b=fService.updateFieldByDomainId(domainId, field);
 		if(b)
-		return "Field for the given domain updated successfully";
+		{
+			Message m=new Message();
+			m.setMessage("Field for the given domain updated successfully");
+			return m;
+		}
 		else
 			throw new ResourceNotFoundException("Domain id not found - " + domainId);
 	}
 	
+	@PreAuthorize("hasAnyRole('Admin','Reviewer')")
 	@RequestMapping(value = "/{fieldId}/domains/{domainId}", method = RequestMethod.PUT)
-	public String updateFieldByDomainId(@PathVariable("fieldId")String fId,@PathVariable("domainId")String dId) {
+	public Message updateFieldByDomainId(@PathVariable("fieldId")String fId,@PathVariable("domainId")String dId) {
 		Long fieldId = Long.parseLong(fId);
 		Long domainId = Long.parseLong(dId);
          Boolean b = fService.updateFieldByDomainId(fieldId,domainId);
          if(b)
-		return "Udpdated successfully";
+		{
+        	 Message m=new Message();
+ 			m.setMessage("Field for the given domain updated successfully");
+ 			return m;
+		}
  		throw new ResourceNotFoundException("Udpdation not possible");
 	}
 	
+	@PreAuthorize("hasAnyRole('Admin')")
 	@RequestMapping(value = "domains/{domainId}", method = RequestMethod.DELETE)
-	public String deleteFieldByDomainId(@PathVariable("domainId")String dId) {
+	public Message deleteFieldByDomainId(@PathVariable("domainId")String dId) {
 		Long domainId = Long.parseLong(dId);
          Boolean b = fService.deleteFieldByDomainId(domainId);
         if(b)
-		return "Deleted successfully";
+		{
+        	Message m=new Message();
+			m.setMessage("Field for the given domain deleted successfully");
+			return m;
+		}
         throw new  ResourceNotFoundException("Domain Id is not valid");
 	}
 	
