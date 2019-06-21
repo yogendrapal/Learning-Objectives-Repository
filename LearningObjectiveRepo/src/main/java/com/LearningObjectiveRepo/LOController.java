@@ -22,7 +22,6 @@ import com.LearningObjectiveRepo.video.Video;
 import com.LearningObjectiveRepo.video.VideoIdFromURL;
 
 @RestController
-@RequestMapping(value = "/api")
 @CrossOrigin(origins="*",allowedHeaders="*")
 @RequestMapping(value = "/api/secured")
 public class LOController {
