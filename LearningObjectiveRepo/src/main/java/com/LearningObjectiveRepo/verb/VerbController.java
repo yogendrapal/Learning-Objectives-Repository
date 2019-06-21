@@ -3,6 +3,7 @@ package com.LearningObjectiveRepo.verb;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +17,7 @@ import com.LearningObjectiveRepo.level.Level;
 
 
 @RestController
+@CrossOrigin(origins="*",allowedHeaders="*")
 @RequestMapping(value="/api/secured/verbs")
 public class VerbController {
 
@@ -45,7 +47,12 @@ public class VerbController {
   		m.setMessage("Verb submitted successfully");
   		return m;
 	}
-	
+	@RequestMapping(value="",method=RequestMethod.GET)
+	public List<Verb> getVerb()
+	{
+		List<Verb> v =verbService.getVerb();
+		return v;
+	}
 	@PreAuthorize("hasAnyRole('Admin','Reviewer','Creator')")
 	@RequestMapping(value="/{verbId}",method=RequestMethod.GET)
 	public Verb readVerbByVerbId(@PathVariable ("verbId") String vId)
@@ -56,7 +63,7 @@ public class VerbController {
 			throw new ResourceNotFoundException("Verb id not found - " + verbId);
 		return v;
 	}
-	
+		
 	@PreAuthorize("hasAnyRole('Admin','Reviewer')")
 	@RequestMapping(value = "/{verbId}", method = RequestMethod.PUT)
 	public Message updateVerbByVerbId(@RequestBody verb v, @PathVariable("verbId") String vid) {
@@ -105,6 +112,15 @@ public class VerbController {
 		Level l= verbService.readLevelByVerbId(verbId);
 		if (l == null )
 			throw new ResourceNotFoundException("Verb id not related to any level - " + vId);
+		return l;
+	}
+	@RequestMapping(value="/{vid}/levels",method=RequestMethod.GET)
+
+	public Level readLevelByVerb(@PathVariable("vid") String vId)
+	{   Long id= Long.parseLong(vId);
+		Level l= verbService.readLevelByVerb(id);
+		if (l == null )
+			throw new ResourceNotFoundException("Verb is not found");
 		return l;
 	}
 

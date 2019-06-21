@@ -10,7 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import com.LearningObjectiveRepo.level.Level;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Verb {
@@ -52,7 +51,7 @@ public class Verb {
 		this.verbName = verbName;
 	}
 
-	public @JsonIgnore Level getLevel() {
+	public  Level getLevel() {
 		return level;
 	}
 

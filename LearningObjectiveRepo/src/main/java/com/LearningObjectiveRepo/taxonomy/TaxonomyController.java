@@ -3,6 +3,7 @@ package com.LearningObjectiveRepo.taxonomy;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +15,7 @@ import com.LearningObjectiveRepo.LearningObjective;
 import com.LearningObjectiveRepo.ExceptionHandling.ResourceNotFoundException;
 import com.LearningObjectiveRepo.UserAccounts.Message;
 @RestController
+@CrossOrigin(origins="*",allowedHeaders="*")
 @RequestMapping(value = "/api/secured/taxonomies")
 public class TaxonomyController {
 	
@@ -50,12 +52,18 @@ public class TaxonomyController {
 	@RequestMapping(value="",method=RequestMethod.POST)
 	public Message createTaxo(@RequestBody Taxo t)
 	{
-		
 		taxoService.createTaxo(t);
 		Message m=new Message();
 		m.setMessage("Taxonomy submitted successfully");
 		return m;
 		}
+	@RequestMapping(value="",method=RequestMethod.GET)
+	public List<Taxonomy> getTaxo()
+	{
+		List<Taxonomy> t = taxoService.getTaxo();
+		return t;
+	}
+		
 	
 	@PreAuthorize("hasAnyRole('Admin','Reviewer','Creator')")
 	@RequestMapping(value="/{taxoId}",method=RequestMethod.GET)

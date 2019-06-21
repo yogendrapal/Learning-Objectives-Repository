@@ -3,7 +3,11 @@ package com.LearningObjectiveRepo.level;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 import org.springframework.security.access.prepost.PreAuthorize;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +19,7 @@ import com.LearningObjectiveRepo.UserAccounts.Message;
 import com.LearningObjectiveRepo.taxonomy.Taxonomy;
 
 @RestController
+@CrossOrigin(origins="*",allowedHeaders="*")
 @RequestMapping(value = "/api/secured/levels")
 public class LevelController {
 	@Autowired
@@ -48,6 +53,13 @@ public class LevelController {
 		m.setMessage("Level submitted successfully");
 		return m;
 		
+	}
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	public List<Level> getLevel() {
+	  List<Level> l = 	levelService.getLevel();
+	  return l;
+	
+
 	}
 	
 	@PreAuthorize("hasAnyRole('Admin','Reviewer')")

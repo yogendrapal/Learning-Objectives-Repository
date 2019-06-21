@@ -111,4 +111,9 @@ public class LevelService {
 		}
 		return false;
 	}
+	public List<Level> getLevel() {
+		// TODO Auto-generated method stub
+		List<Level> lvl = levelRepository.findAll();
+		return lvl;
+	}
 }

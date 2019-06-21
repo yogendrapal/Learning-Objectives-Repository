@@ -8,7 +8,6 @@ import javax.persistence.Embeddable;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 
-@Embeddable
 public class CategoryId implements Serializable {
 
 	private static final long serialVersionUID = 1L;

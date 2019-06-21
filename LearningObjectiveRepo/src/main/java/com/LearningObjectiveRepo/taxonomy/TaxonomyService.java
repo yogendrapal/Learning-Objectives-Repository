@@ -162,5 +162,9 @@ public class TaxonomyService {
 		}
 		return false;
 	}
+	public List<Taxonomy> getTaxo() {
+		List<Taxonomy>  t = tRepository.findAll(); 
+		return t;
+	}
 
 }

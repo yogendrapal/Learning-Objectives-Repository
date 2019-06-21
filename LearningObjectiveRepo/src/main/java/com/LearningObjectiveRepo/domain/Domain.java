@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+//import com.LearningObjectiveRepo.category.Category;
 import com.LearningObjectiveRepo.field.Field;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -27,6 +28,9 @@ public class Domain {
 	
 	@OneToMany(mappedBy="domain",cascade={CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	private List<Field> field=new ArrayList<Field>();
+	
+//	@OneToMany(mappedBy="domain")
+	//private List<Category> category=new ArrayList<>();
 
 	public long getDomainId() {
 		return domainId;

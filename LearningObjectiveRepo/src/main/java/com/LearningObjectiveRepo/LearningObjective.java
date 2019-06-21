@@ -31,7 +31,10 @@ public class LearningObjective {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "lo_id")
 	private long loId;
-
+	//@ManyToMany(fetch = FetchType.EAGER,cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+	//@JoinTable(name="lo_category",joinColumns= {@JoinColumn(name="lo_id")},inverseJoinColumns = {@JoinColumn(name="categoryId")})
+//	private List<Category> category = new ArrayList<Category>();
+	
 	public LearningObjective() {
 	}
 
@@ -43,30 +46,30 @@ public class LearningObjective {
 	@Column(name = "lo_objective")
 	private String lObjective;
 
-	@ManyToMany(fetch = FetchType.EAGER,cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
-	@JoinTable(name="video_lo",joinColumns= {@JoinColumn(name="lo_id")},inverseJoinColumns = {@JoinColumn(name="video_id")}
-			)
+	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+			CascadeType.REFRESH })
+	@JoinTable(name = "video_lo", joinColumns = { @JoinColumn(name = "lo_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "video_id") })
 	private List<Video> video = new ArrayList<Video>();
 
-	@ManyToOne(cascade={CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
-	@JoinColumn(name="taxo_id")
-	private Taxonomy taxonomy ;
-	
-	@ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
-	@JoinColumn(name="lo_parent")
+	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	@JoinColumn(name = "taxo_id")
+	private Taxonomy taxonomy;
+
+	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	@JoinColumn(name = "lo_parent")
 	private LearningObjective lo_parent;
-	
 	@OneToMany(mappedBy="lo_parent")
 	private List<LearningObjective> lo_child = new ArrayList<LearningObjective>();
-	
+
 	@ManyToMany
-	@JoinTable(name="lo_sibling",joinColumns= {@JoinColumn(name="lo_id")},inverseJoinColumns = {@JoinColumn(name="sibling_id")}
-			)
+	@JoinTable(name = "lo_sibling", joinColumns = { @JoinColumn(name = "lo_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "sibling_id") })
 	private List<LearningObjective> lobj = new ArrayList<LearningObjective>();
 
 	@ManyToMany
-	@JoinTable(name="lo_sibling",joinColumns= {@JoinColumn(name="sibling_id")},inverseJoinColumns = {@JoinColumn(name="lo_id")}
-			)
+	@JoinTable(name = "lo_sibling", joinColumns = { @JoinColumn(name = "sibling_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "lo_id") })
 	private List<LearningObjective> lo_sibling = new ArrayList<LearningObjective>();
 
 	@ManyToMany(fetch = FetchType.EAGER,cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
