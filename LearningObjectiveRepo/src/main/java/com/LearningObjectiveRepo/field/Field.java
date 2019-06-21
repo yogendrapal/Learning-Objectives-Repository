@@ -18,8 +18,12 @@ import com.LearningObjectiveRepo.domain.Domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
-@MappedSuperclass
- abstract class A {
+
+
+
+@Entity
+public class Field {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "field_id")
@@ -34,33 +38,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 		
 		
 }
-
-	}
-@Embeddable
-class FieldId extends A implements Serializable{
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	
-
-}
-
-
-@Entity
-public class Field extends A{
-
-	private FieldId fId;
 	
-	public long getFieldId() {
-		return fId.getFieldId();
-	}
-
-	public void setFieldId(FieldId fieldId) {
-		this.fId = fieldId;
-	}
-
 	@Column(name = "field_name")
 	private String fieldName;
 	

@@ -3,6 +3,7 @@ package com.LearningObjectiveRepo.domain;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,25 +11,30 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.LearningObjectiveRepo.ExceptionHandling.ResourceNotFoundException;
+import com.LearningObjectiveRepo.UserAccounts.Message;
 import com.LearningObjectiveRepo.field.Field;
 
 
 @RestController
-@RequestMapping(value="/api/domains")
+@RequestMapping(value="/api/secured/domains")
 public class DomainController {
 	
 	@Autowired
 	private DomainService dService;
 	
+	@PreAuthorize("hasAnyRole('Admin','Reviewer')")
 	@RequestMapping(value = "", method = RequestMethod.POST)
-	public String createDomain(@RequestBody Domain domain) {
+	public Message createDomain(@RequestBody Domain domain) {
 		Boolean b=dService.createDomain(domain);
+		Message m=new Message();
 		if(b)
-		return "Domain submitted successfully";
+		m.setMessage("Domain submitted successfully");
 		else
-			return "Domain Name already exists.";
+			m.setMessage("Domain Name already exists.");
+		return m;	
 	}
 	
+	@PreAuthorize("hasAnyRole('Admin','Reviewer','Creator')")
 	@RequestMapping(value = "/{domainId}", method = RequestMethod.GET)
 	public Domain readDomainByDomainId(@PathVariable ("domainId") String dId) {
 		Long domainId=Long.parseLong(dId);
@@ -38,35 +44,51 @@ public class DomainController {
 		return d;
 	}
 	
+	@PreAuthorize("hasAnyRole('Admin','Reviewer')")
 	@RequestMapping(value = "/{domainId}", method = RequestMethod.PUT)
-	public String updateDomainByDomainId(@RequestBody Domain domain,@PathVariable ("domainId") String dId) {
+	public Message updateDomainByDomainId(@RequestBody Domain domain,@PathVariable ("domainId") String dId) {
 		Long domainId=Long.parseLong(dId);
 		Boolean b=dService.updateDomainByDomainId(domain,domainId);
 		if(b)
-			return "Udpdated successfully";
+			{
+			Message m=new Message();
+			m.setMessage("Domain updated successfully");
+			return m;
+			}
         throw new ResourceNotFoundException("Domain having name -  "+domain.getDomainName()+" already present." );
 	}
 	
+	@PreAuthorize("hasAnyRole('Admin')")
 	@RequestMapping(value = "/{domainId}", method = RequestMethod.DELETE)
-	public String deleteDomainByDomainId(@PathVariable("domainId")String dId) {
+	public Message deleteDomainByDomainId(@PathVariable("domainId")String dId) {
 		Long domainId = Long.parseLong(dId);
          Boolean b = dService.deleteDomainByDomainId(domainId);
         if(b)
-		return "Deleted successfully";
+		{
+        	Message m=new Message();
+			m.setMessage(" Domain deleted successfully");
+			return m;
+		}
         throw new ResourceNotFoundException("Domain Id is not valid");
 	}
 	
+	@PreAuthorize("hasAnyRole('Admin','Reviewer')")
 	@RequestMapping(value="/fields/{fieldId}",method=RequestMethod.POST)
-	public String createDomainByFieldId(@RequestBody Domain domain, @PathVariable ("fieldId") String fid)
+	public Message createDomainByFieldId(@RequestBody Domain domain, @PathVariable ("fieldId") String fid)
 	{
 		Long fieldId=Long.parseLong(fid);
 		Boolean b=dService.createDomainByFieldId(domain,fieldId);
 		if(b)
-		return "Domain corresponding to the given field added successfully";
+		{
+			Message m=new Message();
+			m.setMessage("Domain corresponding to the given field added successfully");
+			return m;
+		}
 		else
 			throw new ResourceNotFoundException("Field id not found - " + fieldId);
 	}
 	
+	@PreAuthorize("hasAnyRole('Admin','Reviewer','Creator')")
 	@RequestMapping(value="/{domainId}/fields",method=RequestMethod.GET)
 	public List<Field> readFieldsByDomainId(@PathVariable ("domainId") String dId)
 	{
@@ -77,6 +99,7 @@ public class DomainController {
 		return f;
 	}
 	
+	@PreAuthorize("hasAnyRole('Admin','Reviewer','Creator')")
 	@RequestMapping(value="/fields/{fieldId}",method=RequestMethod.GET)
 	public Domain readDomainByFieldId(@PathVariable ("fieldId") String fId)
 	{
@@ -87,37 +110,52 @@ public class DomainController {
 		return d;
 	}
 	
+	@PreAuthorize("hasAnyRole('Admin','Reviewer')")
 	@RequestMapping(value = "/fields/{fieldId}", method = RequestMethod.PUT)
-	public String updateDomainByFieldId(@RequestBody Domain domain, @PathVariable("fieldId") String fid) {
+	public Message updateDomainByFieldId(@RequestBody Domain domain, @PathVariable("fieldId") String fid) {
 
 		Long fieldId = Long.parseLong(fid);
 		
 		Boolean b=dService.updateDomainByFieldId(fieldId, domain);
 		if(b)
-		return "Domain for the given field updated successfully";
+		{
+			Message m=new Message();
+			m.setMessage("Domain corresponding to the given field update successfully");
+			return m;
+		}
 		else
 			throw new ResourceNotFoundException("Field id not found - " + fieldId);
 	}
 	
+	@PreAuthorize("hasAnyRole('Admin','Reviewer')")
 	@RequestMapping(value = "/{domainId}/fields/{fieldId}", method = RequestMethod.PUT)
-	public String updateFieldByDomainId(@PathVariable("domainId") String did, @PathVariable("fieldId") String fid) {
+	public Message updateFieldByDomainId(@PathVariable("domainId") String did, @PathVariable("fieldId") String fid) {
 
 		Long domainId = Long.parseLong(did);
 		Long fieldId = Long.parseLong(fid);
 		Boolean b=dService.updateFieldByDomainId(domainId, fieldId);
 		if(b)
-		return "Domain for the given field updated successfully";
+		{
+			Message m=new Message();
+			m.setMessage("Domain corresponding to the given field updated successfully");
+			return m;
+		}
 		else
 			throw new ResourceNotFoundException("Updation not possible  ");
 	}
 
+	@PreAuthorize("hasAnyRole('Admin')")
 	@RequestMapping(value="/fields/{fieldId}",method=RequestMethod.DELETE)
-	public String deleteDomainByFieldId(@PathVariable ("fieldId") String fid)
+	public Message deleteDomainByFieldId(@PathVariable ("fieldId") String fid)
 	{
 		Long fieldId = Long.parseLong(fid);
 		Boolean b=dService.deleteDomainByFieldId(fieldId);
 		if(b)
-			return "Domain for the given field deleted successfully";
+			{
+			Message m=new Message();
+			m.setMessage("Domain corresponding to the given field deleted successfully");
+			return m;
+			}
 		else
 			throw new ResourceNotFoundException("Field Id not found -  "+fieldId);
 			
