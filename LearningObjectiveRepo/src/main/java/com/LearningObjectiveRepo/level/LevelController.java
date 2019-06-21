@@ -3,6 +3,7 @@ package com.LearningObjectiveRepo.level;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import com.LearningObjectiveRepo.taxonomy.Taxonomy;
 
 @RestController
 @RequestMapping(value = "/api/levels")
+@CrossOrigin(origins="*",allowedHeaders="*")
 public class LevelController {
 	@Autowired
 	private LevelService levelService;
@@ -23,6 +25,13 @@ public class LevelController {
 	public String createLevel(@RequestBody Level lvl) {
 		levelService.createLevel(lvl);
 		return "Level submitted successfully";
+
+	}
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	public List<Level> getLevel() {
+	  List<Level> l = 	levelService.getLevel();
+	  return l;
+	
 
 	}
 	@RequestMapping(value = "/taxonomies/{taxoid}", method = RequestMethod.POST)

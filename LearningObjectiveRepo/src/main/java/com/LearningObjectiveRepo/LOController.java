@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import com.LearningObjectiveRepo.video.VideoIdFromURL;
 
 @RestController
 @RequestMapping(value = "/api")
+@CrossOrigin(origins="*",allowedHeaders="*")
 public class LOController {
 
 	@Autowired
@@ -70,7 +72,7 @@ public class LOController {
 	 */
 
 	@RequestMapping(value = "/los", method = RequestMethod.POST)
-	public String createLO(@RequestBody Lo lobj) {
+	public @ResponseBody String createLO(@RequestBody Lo lobj) {
 		String lo = lobj.getLo();
 		loService.createLo(lo);
 		return "Learning objective submitted successfully";
@@ -140,7 +142,7 @@ public class LOController {
 	}
 
 	/**
-	 * Gets LearningObjectives by LoId.
+	 * Get LearningObjectives by LoId.
 	 *
 	 * @return the Learning Objective for the particular LoId
 	 */
@@ -154,9 +156,16 @@ public class LOController {
 			throw new ResourceNotFoundException("Learning Objective id not found - " + loId);
 		return lo;
 	}
+	@RequestMapping(value = "/los", method = RequestMethod.GET)
+	public @ResponseBody List<LearningObjective> readAllLo() {
 
+		List<LearningObjective> lo = loService.readAllLo();
+		if (lo == null)
+			throw new ResourceNotFoundException("Learning Objective not found");
+		return lo;
+	}
 	/**
-	 * Gets videos by particular learning objective Id.
+	 * Get videos by particular learning objective Id.
 	 *
 	 * @return the list of videos
 	 */
@@ -172,7 +181,7 @@ public class LOController {
 	}
 
 	/**
-	 * Gets video for a particular videoId
+	 * Get video for a particular videoId
 	 *
 	 * @return video
 	 */
@@ -254,6 +263,13 @@ public class LOController {
 			throw new ResourceNotFoundException("video id not found - " + videoId);
 	}
 
+	/**
+	 * Create learning objective child for a given learning objective id and child
+	 * id.
+	 *
+	 * @param parent learning objective id lId and child learning objective Id chId
+	 */
+
 	@RequestMapping(value = "/los/{loId}/children/{childId}", method = RequestMethod.POST)
 	public String setLoChild(@PathVariable("loId") String lId, @PathVariable("childId") String chId) {
 		Long loId = Long.parseLong(lId);
@@ -262,6 +278,12 @@ public class LOController {
 		return "Child learning objective added successfully";
 
 	}
+
+	/**
+	 * Get list of learning objective child for a given learning objective id.
+	 *
+	 * @param parent learning objective id lId
+	 */
 
 	@RequestMapping(value = "/los/{loId}/children", method = RequestMethod.GET)
 	public @ResponseBody List<LearningObjective> getLoChild(@PathVariable("loId") String lId) {
@@ -276,6 +298,12 @@ public class LOController {
 
 	}
 
+	/**
+	 * Delete learning objective child for a given learning objective id.
+	 *
+	 * @param parent learning objective id lId
+	 */
+
 	@RequestMapping(value = "/los/{loId}/children", method = RequestMethod.DELETE)
 	public String deleteChildrenByLoId(@PathVariable("loId") String lid) {
 
@@ -287,6 +315,12 @@ public class LOController {
 			throw new ResourceNotFoundException("Deletion of children is not possible for the given id - " + loId);
 	}
 
+	/**
+	 * Delete learning objective child for a given child learning objective id.
+	 *
+	 * @param child learning objective id chId
+	 */
+
 	@RequestMapping(value = "/los/children/{cId}", method = RequestMethod.DELETE)
 	public String deleteChildByLoId(@PathVariable("cId") String chid) {
 
@@ -297,6 +331,13 @@ public class LOController {
 		else
 			throw new ResourceNotFoundException("Deletion not possible for the given id - " + childId);
 	}
+
+	/**
+	 * Create learning objective sibling for a given learning objective id and
+	 * sibling id.
+	 *
+	 * @param learning objective id lId and sibling id sId
+	 */
 
 	@RequestMapping(value = "/los/{loId}/sibling/{sibId}", method = RequestMethod.POST)
 	public String setLoSibling(@PathVariable("loId") String lId, @PathVariable("sibId") String sId) {
@@ -313,6 +354,12 @@ public class LOController {
 		throw new ResourceNotFoundException(" Both ids are same . ");
 	}
 
+	/**
+	 * Get learning objective sibling for a given learning objective id.
+	 *
+	 * @param learning objective id lId
+	 */
+
 	@RequestMapping(value = "/los/{loId}/sibling", method = RequestMethod.GET)
 	public @ResponseBody List<LearningObjective> getLoSibling(@PathVariable("loId") String lId) {
 		Long loId = Long.parseLong(lId);
@@ -323,6 +370,11 @@ public class LOController {
 			return lo;
 	}
 
+	/**
+	 * Create learning objective sibling for a given learning objective id.
+	 *
+	 * @param learning objective id lId
+	 */
 	@RequestMapping(value = "/los/{loId}/sibling", method = RequestMethod.DELETE)
 	public String deleteSiblingByLoId(@PathVariable("loId") String lId) {
 
@@ -333,6 +385,12 @@ public class LOController {
 		else
 			throw new ResourceNotFoundException("Deletion not possible for the given id - " + loId);
 	}
+
+	/**
+	 * Delete mapping between learning objective sibling for given ids.
+	 *
+	 * @param learning objective id lId and sibling id sId
+	 */
 
 	@RequestMapping(value = "/los/{loId}/sibling/{sId}", method = RequestMethod.DELETE)
 	public String deleteSiblingBySiblingId(@PathVariable("loId") String lId, @PathVariable("sId") String sId) {

@@ -3,6 +3,7 @@ package com.LearningObjectiveRepo.taxonomy;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import com.LearningObjectiveRepo.LearningObjective;
 import com.LearningObjectiveRepo.ExceptionHandling.ResourceNotFoundException;
 @RestController
 @RequestMapping(value = "/api/taxonomies")
+@CrossOrigin(origins="*",allowedHeaders="*")
 public class TaxonomyController {
 	
 	@Autowired
@@ -39,6 +41,12 @@ public class TaxonomyController {
 		String taxo = t.getTaxo();
 		taxoService.createTaxo(taxo);
 		return "Taxonomy submitted successfully";
+	}
+	@RequestMapping(value="",method=RequestMethod.GET)
+	public List<Taxonomy> getTaxo()
+	{
+		List<Taxonomy> t = taxoService.getTaxo();
+		return t;
 	}
 	
 	@RequestMapping(value="/{taxoId}",method=RequestMethod.GET)

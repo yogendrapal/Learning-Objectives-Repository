@@ -61,7 +61,9 @@ public class FieldService {
 		if(f!=null) {
 			
 			f.setDomain(null);
-			fRepository.delete(f);
+			f.getSubject().clear();
+			fRepository.deleteFromField(fieldId);
+			//fRepository.delete(f);
 			return true;
 		}
 			

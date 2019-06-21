@@ -250,6 +250,11 @@ public class LOService {
 		return false;
 	}
 
+	/**
+	 * Set child corresponding to a particular learning Objective Id.
+	 *
+	 * @param loId and childId
+	 */
 	public void setLoChild(Long loId, Long childId) {
 		LearningObjective plo = loRepository.findByLoId(loId);
 		LearningObjective clo = loRepository.findByLoId(childId);
@@ -259,6 +264,11 @@ public class LOService {
 		loRepository.save(clo);
 	}
 
+	/**
+	 * Get list of child corresponding to a particular learning Objective Id.
+	 *
+	 * @param loId
+	 */
 	public List<LearningObjective> getLoChild(Long loId) {
 		LearningObjective lo = loRepository.findByLoId(loId);
 		if (lo == null)
@@ -266,6 +276,11 @@ public class LOService {
 		return lo.getLo_child();
 	}
 
+	/**
+	 * Delete children corresponding to a particular learning Objective Id.
+	 *
+	 * @param loId
+	 */
 	public LearningObjective deleteChildrenByLoId(Long loId) {
 		LearningObjective lo = loRepository.findByLoId(loId);
 		if (lo != null && !(lo.getLo_child().isEmpty())) {
@@ -280,6 +295,11 @@ public class LOService {
 
 	}
 
+	/**
+	 * Delete child corresponding to a particular child learning Objective Id.
+	 *
+	 * @param childId
+	 */
 	public LearningObjective deleteChildByLoId(Long childId) {
 		LearningObjective clo = loRepository.findByLoId(childId);
 		if (clo != null) {
@@ -290,6 +310,11 @@ public class LOService {
 		return null;
 	}
 
+	/**
+	 * Delete child corresponding to a particular learning Objective Id.
+	 *
+	 * @param loId
+	 */
 	public Boolean setLoSibling(Long loId, Long sibId) {
 		LearningObjective lo = loRepository.findByLoId(loId);
 		LearningObjective sibLo = loRepository.findByLoId(sibId);
@@ -340,6 +365,11 @@ public class LOService {
 		loRepository.save(slo);
 		return true;
 
+	}
+
+	public List<LearningObjective> readAllLo() {
+		List<LearningObjective> lo = loRepository.findAll();
+		return lo;
 	}
 
 }

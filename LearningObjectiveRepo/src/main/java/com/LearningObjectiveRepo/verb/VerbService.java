@@ -104,4 +104,17 @@ public class VerbService {
 		return null;
 	}
 
+	public List<Verb> getVerb() {
+		// TODO Auto-generated method stub
+		return vRepository.findAll();
+	}
+
+	public Level readLevelByVerb(Long vId) {
+		Verb verb  = vRepository.findByVerbId(vId);
+		if(verb!=null) {
+			return verb.getLevel();
+		}
+		return null;
+	}
+
 }

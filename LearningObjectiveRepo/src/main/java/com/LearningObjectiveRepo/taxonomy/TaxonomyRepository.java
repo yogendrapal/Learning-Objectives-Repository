@@ -1,5 +1,7 @@
 package com.LearningObjectiveRepo.taxonomy;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -15,4 +17,5 @@ public interface TaxonomyRepository extends CrudRepository<Taxonomy,String>{
 	@Modifying
 	@Query("Delete from Taxonomy where taxo_id= :tId")
 	public void deleteFromTaxo(@Param("tId")Long taxoId);
+	public List<Taxonomy> findAll();
 }

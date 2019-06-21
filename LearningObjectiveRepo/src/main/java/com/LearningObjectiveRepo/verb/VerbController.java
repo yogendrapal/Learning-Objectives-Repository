@@ -3,6 +3,7 @@ package com.LearningObjectiveRepo.verb;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import com.LearningObjectiveRepo.level.Level;
 
 @RestController
 @RequestMapping(value="/api/verbs")
+@CrossOrigin(origins="*",allowedHeaders="*")
 public class VerbController {
 
 	@Autowired
@@ -40,7 +42,12 @@ public class VerbController {
 		verbService.createVerb(vName);
 		return "Verb submitted successfully";
 	}
-	
+	@RequestMapping(value="",method=RequestMethod.GET)
+	public List<Verb> getVerb()
+	{
+		List<Verb> v =verbService.getVerb();
+		return v;
+	}
 	@RequestMapping(value="/{verbId}",method=RequestMethod.GET)
 	public Verb readVerbByVerbId(@PathVariable ("verbId") String vId)
 	{
@@ -50,6 +57,7 @@ public class VerbController {
 			throw new ResourceNotFoundException("Verb id not found - " + verbId);
 		return v;
 	}
+	
 	
 	@RequestMapping(value = "/{verbId}", method = RequestMethod.PUT)
 	public String updateVerbByVerbId(@RequestBody verb v, @PathVariable("verbId") String vid) {
@@ -89,6 +97,15 @@ public class VerbController {
 		Level l= verbService.readLevelByVerbId(verbId);
 		if (l == null )
 			throw new ResourceNotFoundException("Verb id not related to any level - " + vId);
+		return l;
+	}
+	@RequestMapping(value="/{vid}/levels",method=RequestMethod.GET)
+
+	public Level readLevelByVerb(@PathVariable("vid") String vId)
+	{   Long id= Long.parseLong(vId);
+		Level l= verbService.readLevelByVerb(id);
+		if (l == null )
+			throw new ResourceNotFoundException("Verb is not found");
 		return l;
 	}
 

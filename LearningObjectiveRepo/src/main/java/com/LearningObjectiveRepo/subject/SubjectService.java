@@ -48,10 +48,10 @@ public class SubjectService {
 			topicRepo.save(t);
 			return subject;
 		} else if (t != null && subject == null) {
-			subjectRepo.save(subject);
-			t.setSubject(subject);
+			subjectRepo.save(sub);
+			t.setSubject(sub);
 			topicRepo.save(t);
-			return subject;
+			return sub;
 		}
 		return null;
 	}
@@ -61,8 +61,11 @@ public class SubjectService {
 		if(s!=null)
 		{   for(Topic t : s.getTopic()) {
 			t.setSubject(null);
+			topicRepo.save(t);
 		}
-			subjectRepo.delete(s);
+		s.getField().clear();
+		subjectRepo.deleteFromSubject(sId);
+			//subjectRepo.delete(s);
 			return true;
 		}
 		return false;
