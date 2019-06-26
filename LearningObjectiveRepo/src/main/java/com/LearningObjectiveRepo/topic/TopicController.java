@@ -14,7 +14,7 @@ import com.LearningObjectiveRepo.ExceptionHandling.ResourceNotFoundException;
 import com.LearningObjectiveRepo.UserAccounts.Message;
 import com.LearningObjectiveRepo.subject.Subject;
 @RestController
-@RequestMapping(value = "/api/secured/topics")
+@RequestMapping(value = "/api/topics")
 public class TopicController {
 	@Autowired 
 	private TopicService topicService;

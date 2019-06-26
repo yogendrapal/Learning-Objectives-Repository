@@ -16,7 +16,7 @@ import com.LearningObjectiveRepo.ExceptionHandling.ResourceNotFoundException;
 import com.LearningObjectiveRepo.UserAccounts.Message;
 @RestController
 @CrossOrigin(origins="*",allowedHeaders="*")
-@RequestMapping(value = "/api/secured/taxonomies")
+@RequestMapping(value = "/api/taxonomies")
 public class TaxonomyController {
 	
 	@Autowired
@@ -57,6 +57,7 @@ public class TaxonomyController {
 		m.setMessage("Taxonomy submitted successfully");
 		return m;
 		}
+	@PreAuthorize("hasAnyRole('Admin','Reviewer','Creator')")
 	@RequestMapping(value="",method=RequestMethod.GET)
 	public List<Taxonomy> getTaxo()
 	{

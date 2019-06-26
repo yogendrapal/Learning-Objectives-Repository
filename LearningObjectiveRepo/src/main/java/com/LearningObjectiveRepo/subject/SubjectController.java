@@ -11,7 +11,7 @@ import com.LearningObjectiveRepo.ExceptionHandling.ResourceNotFoundException;
 import com.LearningObjectiveRepo.UserAccounts.Message;
 
 @RestController
-@RequestMapping(value = "/api/secured/subjects")
+@RequestMapping(value = "/api/subjects")
 public class SubjectController {
 	@Autowired
 	private SubjectService subjectService;

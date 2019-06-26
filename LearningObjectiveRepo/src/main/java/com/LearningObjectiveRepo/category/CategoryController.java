@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.LearningObjectiveRepo.UserAccounts.Message;
 
 @RestController
-@RequestMapping(value="/api/secured/categories")
+@RequestMapping(value="/api/categories")
 public class CategoryController {
 	
 	@Autowired

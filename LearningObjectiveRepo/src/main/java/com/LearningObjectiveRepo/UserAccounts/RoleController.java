@@ -13,7 +13,7 @@ import com.LearningObjectiveRepo.ExceptionHandling.ResourceNotFoundException;
 
 
 @RestController
-@RequestMapping(value="/api/secured/roles")
+@RequestMapping(value="/api/roles")
 public class RoleController {
 	
 	@Autowired
