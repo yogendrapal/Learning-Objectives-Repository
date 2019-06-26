@@ -13,13 +13,13 @@ import com.LearningObjectiveRepo.ExceptionHandling.ResourceNotFoundException;
 
 
 @RestController
-@RequestMapping(value="/api/secured/roles")
+@RequestMapping(value="/api/roles")
 public class RoleController {
 	
 	@Autowired
 	private RoleService rService;
 	
-	@PreAuthorize("hasAnyRole('Admin')")
+	//@PreAuthorize("hasAnyRole('Admin')")
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	public Message createRole(@RequestBody Role role) {
 		
@@ -28,9 +28,9 @@ public class RoleController {
 
 	}
 	@PreAuthorize("hasAnyRole('Admin','Reviewer','Creator')")
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@RequestMapping(value = "/secured", method = RequestMethod.GET)
 	public List<Role> getRoles() {
-		
+	
 		List<Role> r=rService.getRoles();
 		if(r.isEmpty())
 		{
