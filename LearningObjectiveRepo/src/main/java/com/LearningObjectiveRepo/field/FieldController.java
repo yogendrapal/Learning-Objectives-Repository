@@ -16,7 +16,7 @@ import com.LearningObjectiveRepo.domain.Domain;
 
 
 @RestController
-@RequestMapping(value="/api/secured/fields")
+@RequestMapping(value="/api/fields")
 public class FieldController {
 
 	@Autowired

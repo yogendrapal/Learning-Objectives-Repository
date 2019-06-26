@@ -4,6 +4,7 @@ import java.util.List;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,6 +47,7 @@ public static class FieldAndSub {
 
 
 }
+@PreAuthorize("hasAnyRole('Admin','Reviewer')")
 @RequestMapping(value = "/fields/subjects", method = RequestMethod.POST)
 public String createField_Subject(@RequestBody FieldAndSub fs) {
 	String field = fs.getField();
@@ -53,6 +55,7 @@ public String createField_Subject(@RequestBody FieldAndSub fs) {
 	subFieldService.createFieldSub(field,sub);
 	return "Field and it's corresponding Subject submitted successfully";
 }
+@PreAuthorize("hasAnyRole('Admin','Reviewer')")
 @RequestMapping(value = "/fields/{fieldid}/subjects/{subid}", method = RequestMethod.POST)
 public String createFieldSubById(@PathVariable("fieldid") String fieldId,@PathVariable("subid") String subId) {
 	Long fId = Long.parseLong(fieldId);
@@ -62,6 +65,7 @@ public String createFieldSubById(@PathVariable("fieldid") String fieldId,@PathVa
 	return "Field and it's corresponding Subject submitted successfully";
 	throw new ResourceNotFoundException("Ids are not present");
 }
+@PreAuthorize("hasAnyRole('Admin','Reviewer','Creator')")
 @RequestMapping(value = "/fields/subjects/{subid}", method = RequestMethod.GET)
 public @ResponseBody List<Field> readFieldBySubjectId(@PathVariable("subid") String subId) {
 	Long sId = Long.parseLong(subId);
@@ -70,6 +74,7 @@ public @ResponseBody List<Field> readFieldBySubjectId(@PathVariable("subid") Str
 		throw new ResourceNotFoundException("Subject id not found - " + subId);
 	return field;
 }
+@PreAuthorize("hasAnyRole('Admin','Reviewer','Creator')")
 @RequestMapping(value = "/subjects/fields/{fieldid}", method = RequestMethod.GET)
 public @ResponseBody List<Subject> readSubjectByFieldId(@PathVariable("fieldid") String fieldId) {
 	Long fId = Long.parseLong(fieldId);
@@ -78,6 +83,7 @@ public @ResponseBody List<Subject> readSubjectByFieldId(@PathVariable("fieldid")
 		throw new ResourceNotFoundException("Field id not found - " + fieldId);
 	return sub;
 }
+@PreAuthorize("hasAnyRole('Admin','Reviewer')")
 @RequestMapping(value = "/fields/{fieldid}/subjects", method = RequestMethod.PUT)
 public String updateFieldBySubject(@RequestBody Subject sub,@PathVariable("fieldid") String fieldId) {
 	Long fId = Long.parseLong(fieldId);
@@ -86,6 +92,7 @@ public String updateFieldBySubject(@RequestBody Subject sub,@PathVariable("field
 	return "Updated successfully";
 	throw new ResourceNotFoundException("Updation not possible");
 }  
+@PreAuthorize("hasAnyRole('Admin','Reviewer')")
 @RequestMapping(value = "/subjects/{subid}/fields", method = RequestMethod.PUT)
 public String updateSubjectByField(@RequestBody Field field,@PathVariable("subid") String subId) {
 	Long sId = Long.parseLong(subId);
@@ -94,6 +101,7 @@ public String updateSubjectByField(@RequestBody Field field,@PathVariable("subid
 	return "Updated successfully";
 	throw new ResourceNotFoundException("Updation not possible");
 }
+@PreAuthorize("hasAnyRole('Admin')")
 @RequestMapping(value = "/fields/{fieldid}/subjects", method = RequestMethod.DELETE)
 public String deleteSubjectByFieldId(@PathVariable("fieldid") String fieldId) {
 	Long fId = Long.parseLong(fieldId);
@@ -102,6 +110,7 @@ public String deleteSubjectByFieldId(@PathVariable("fieldid") String fieldId) {
 	return "Deleted successfully";
 	throw new ResourceNotFoundException("Deletion not possible");
 }
+@PreAuthorize("hasAnyRole('Admin')")
 @RequestMapping(value = "/subjects/{subid}/fields", method = RequestMethod.DELETE)
 public String deleteFieldBySubjectId(@PathVariable("subid") String subId) {
 	Long sId = Long.parseLong(subId);
@@ -110,6 +119,7 @@ public String deleteFieldBySubjectId(@PathVariable("subid") String subId) {
 	return "Deleted successfully";
 	throw new ResourceNotFoundException("Deletion not possible");
 }
+@PreAuthorize("hasAnyRole('Admin')")
 @RequestMapping(value = "/subjects/{subid}/fields/{fieldid}", method = RequestMethod.DELETE)
 public String deleteFieldSubjectById(@PathVariable("subid") String subId,@PathVariable("fieldid") String fieldId) {
 	Long sId = Long.parseLong(subId);

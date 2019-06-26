@@ -1,4 +1,4 @@
-package com.LearningObjectiveRepo.UserAccounts;
+/*package com.LearningObjectiveRepo.UserAccounts;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -7,9 +7,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public class CustomUserDetails extends Users implements UserDetails{
+public class CustomUserDetails extends User implements UserDetails{
 
-	public CustomUserDetails(final Users users) {
+	public CustomUserDetails(final User users) {
         super(users);
     }
 
@@ -52,3 +52,4 @@ public class CustomUserDetails extends Users implements UserDetails{
         return true;
     }
 }
+*/

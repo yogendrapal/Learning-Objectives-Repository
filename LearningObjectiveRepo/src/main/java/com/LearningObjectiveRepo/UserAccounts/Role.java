@@ -23,13 +23,13 @@ public class Role {
     
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<Users> user=new ArrayList<>();
+    private List<User> user=new ArrayList<>();
 
-    public @JsonIgnore List<Users> getUser() {
+    public @JsonIgnore List<User> getUser() {
 		return user;
 	}
 
-	public void setUser(List<Users> user) {
+	public void setUser(List<User> user) {
 		this.user = user;
 	}
 

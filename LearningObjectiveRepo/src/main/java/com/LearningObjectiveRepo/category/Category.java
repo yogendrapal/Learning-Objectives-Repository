@@ -136,15 +136,8 @@ public class Category {
 		this.topic = topic;
 	}
 
-	@ManyToOne @MapsId("subjectId")
-	@JoinColumn(name="subjectId")
-	private Subject subject;
 	
-	@ManyToOne @MapsId("topicId")
-	@JoinColumn(name="topicId")
-	private Topic topic;
 }
 
 	
-}
 
