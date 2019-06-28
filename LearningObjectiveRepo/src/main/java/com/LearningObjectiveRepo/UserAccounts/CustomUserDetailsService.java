@@ -1,7 +1,5 @@
 package com.LearningObjectiveRepo.UserAccounts;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -34,7 +32,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		User user = userService.find(username);
 		return  user;
+
 	}
 }
-
-

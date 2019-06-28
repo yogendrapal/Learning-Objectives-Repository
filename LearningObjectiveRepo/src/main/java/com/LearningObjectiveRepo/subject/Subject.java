@@ -26,48 +26,70 @@ public class Subject {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "subject_id")
 	private long subjectId;
-	@Column(name = "subject_name",nullable = false)
+
+	@Column(name = "subject_name", nullable = false)
 	private String subjectName;
-	@OneToMany(mappedBy="subject")
+
+	/*
+	 * Relationship between subject and topic
+	 */
+	@OneToMany(mappedBy = "subject")
 	private List<Topic> topic = new ArrayList<Topic>();
-	public List<Field> getField() {
-		return field;
-	}
-	public void setField(List<Field> field) {
-		this.field = field;
-	}
-	@ManyToMany(fetch = FetchType.EAGER,cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
-	@JoinTable(name="subject_field",joinColumns= {@JoinColumn(name="subject_id")},inverseJoinColumns = {@JoinColumn(name="field_id")})
+
+	/*
+	 * Relationship between subject and field
+	 */
+	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+			CascadeType.REFRESH })
+	@JoinTable(name = "subject_field", joinColumns = { @JoinColumn(name = "subject_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "field_id") })
 	private List<Field> field = new ArrayList<Field>();
 
-	//@OneToMany(mappedBy="subject")
-	//private List<Category> category=new ArrayList<>();
-	
+	/*
+	 * Constructors
+	 */
 	public Subject() {
-		
+
 	}
+
 	public Subject(String subjectName) {
 		super();
 		this.subjectName = subjectName;
 	}
+
+	/*
+	 * Getters and setters
+	 */
 	public @JsonIgnore List<Topic> getTopic() {
 		return topic;
 	}
+
 	public void setTopic(List<Topic> topic) {
 		this.topic = topic;
 	}
+
 	public long getSubjectId() {
 		return subjectId;
 	}
+
 	public void setSubjectId(long subjectId) {
 		this.subjectId = subjectId;
 	}
+
 	public String getSubjectName() {
 		return subjectName;
 	}
+
 	public void setSubjectName(String subjectName) {
 		this.subjectName = subjectName;
 	}
-	
-	
+
+	public List<Field> getField() {
+		return field;
+	}
+
+	public void setField(List<Field> field) {
+		this.field = field;
+	}
+
 }

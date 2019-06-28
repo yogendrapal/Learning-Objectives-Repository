@@ -17,15 +17,17 @@ import java.util.List;
 
 
 @Entity
-@Table(name="User")
-@Scope("session")
-public  class User implements UserDetails{
+@Table(name = "User")
+@Scope("session") // Details will be saved only till a particular session
+public class User implements UserDetails {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
+
 	public static enum Role{ Creator }
+
 	/**
 	 * Description of the property id.
 	 */
@@ -41,6 +43,7 @@ public  class User implements UserDetails{
 	 * Description of the property password.
 	 */
 	@JsonProperty(access = Access.WRITE_ONLY)
+
 	private String password ;
 	/**
 	 * Description of the property role , to grant authority to the user .
@@ -60,6 +63,8 @@ public  class User implements UserDetails{
     	this.password= password;
     	this.fullName=fullName;
     }
+	
+
 	@JsonIgnore
 	@Override
 	public boolean isEnabled() {
@@ -88,7 +93,8 @@ public  class User implements UserDetails{
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Collection<GrantedAuthority> authorities = new ArrayList<>();
-		authorities.add(new SimpleGrantedAuthority(role));
+
+		authorities.add(new SimpleGrantedAuthority("ROLE_"+role));
 		return authorities;
 	}
 
@@ -123,6 +129,8 @@ public  class User implements UserDetails{
 		this.username = username;
 	}
 
+	
+	
 	public void setPassword(String password) {
 		this.password = password;
 	}
@@ -130,8 +138,6 @@ public  class User implements UserDetails{
 	public String getFullName() {
 		return fullName;
 	}
-}
-
 	public void setFullName(String fullName) {
 		this.fullName = fullName;
 	}
@@ -139,7 +145,4 @@ public  class User implements UserDetails{
 	public Long getId() {
 		return id;
 	}
-	
-	
-
 }

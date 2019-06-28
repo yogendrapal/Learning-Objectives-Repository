@@ -1,5 +1,8 @@
 package com.LearningObjectiveRepo;
 
+/*
+ * Additional class created to receive video_url and learning objective in a single json object
+ */
 public class ReqFormat {
 
 	private String url;
