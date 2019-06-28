@@ -20,7 +20,7 @@ import com.LearningObjectiveRepo.taxonomy.Taxonomy;
 
 @RestController
 @CrossOrigin(origins="*",allowedHeaders="*")
-@RequestMapping(value = "/api/secured/levels")
+@RequestMapping(value = "/api/levels")
 public class LevelController {
 	@Autowired
 	private LevelService levelService;

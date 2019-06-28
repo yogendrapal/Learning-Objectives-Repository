@@ -31,10 +31,12 @@ public class Field {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "field_id")
+
 	protected long fieldId;
 	
 	
-	
+
+
 	@Column(name = "field_name")
 	private String fieldName;
 	

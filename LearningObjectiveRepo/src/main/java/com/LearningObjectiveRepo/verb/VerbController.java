@@ -18,7 +18,7 @@ import com.LearningObjectiveRepo.level.Level;
 
 @RestController
 @CrossOrigin(origins="*",allowedHeaders="*")
-@RequestMapping(value="/api/secured/verbs")
+@RequestMapping(value="/api/verbs")
 public class VerbController {
 
 	@Autowired
@@ -114,6 +114,8 @@ public class VerbController {
 			throw new ResourceNotFoundException("Verb id not related to any level - " + vId);
 		return l;
 	}
+	
+	@PreAuthorize("hasAnyRole('Admin','Reviewer','Creator')")
 	@RequestMapping(value="/{vid}/levels",method=RequestMethod.GET)
 
 	public Level readLevelByVerb(@PathVariable("vid") String vId)
