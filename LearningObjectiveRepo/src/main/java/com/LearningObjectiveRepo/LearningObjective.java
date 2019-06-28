@@ -31,47 +31,51 @@ public class LearningObjective {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "lo_id")
 	private long loId;
-	//@ManyToMany(fetch = FetchType.EAGER,cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
-	//@JoinTable(name="lo_category",joinColumns= {@JoinColumn(name="lo_id")},inverseJoinColumns = {@JoinColumn(name="categoryId")})
-//	private List<Category> category = new ArrayList<Category>();
 	
-	public LearningObjective() {
-	}
-
-	public LearningObjective(String lObjective) {
-		super();
-		this.lObjective = lObjective;
-	}
-
+	
 	@Column(name = "lo_objective")
 	private String lObjective;
 
+	/*
+	 * Many to Many relationship between Lo and video
+	 */
 	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
 			CascadeType.REFRESH })
 	@JoinTable(name = "video_lo", joinColumns = { @JoinColumn(name = "lo_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "video_id") })
 	private List<Video> video = new ArrayList<Video>();
 
+	/*
+	 * Many to One relationship between Lo and taxonomy
+	 */
 	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
 	@JoinColumn(name = "taxo_id")
 	private Taxonomy taxonomy;
 
+	/*
+	 * One learning objective can have many child
+	 */
 	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
 	@JoinColumn(name = "lo_parent")
 	private LearningObjective lo_parent;
 	@OneToMany(mappedBy="lo_parent")
 	private List<LearningObjective> lo_child = new ArrayList<LearningObjective>();
 
+	/*
+	 * Many lo can have many siblings
+	 */
 	@ManyToMany
 	@JoinTable(name = "lo_sibling", joinColumns = { @JoinColumn(name = "lo_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "sibling_id") })
 	private List<LearningObjective> lobj = new ArrayList<LearningObjective>();
-
 	@ManyToMany
 	@JoinTable(name = "lo_sibling", joinColumns = { @JoinColumn(name = "sibling_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "lo_id") })
 	private List<LearningObjective> lo_sibling = new ArrayList<LearningObjective>();
 
+	/*
+	 * Many to Many relationship between Lo and category(domain,field,subject,topic)
+	 */
 	@ManyToMany(fetch = FetchType.EAGER,cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	@JoinTable(name="lo_category",joinColumns= {@JoinColumn(name="lo_id")},inverseJoinColumns = {
  		   @JoinColumn(name="domainId"),
@@ -80,6 +84,9 @@ public class LearningObjective {
  		   @JoinColumn(name="topicId")})
 	private Set<Category> category = new HashSet<>();
 	
+	/*
+	 * Many to Many relationship between Lo and type(taxonomy,level,verb)
+	 */
 	@ManyToMany(fetch = FetchType.EAGER,cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	@JoinTable(name="lo_type",joinColumns= {@JoinColumn(name="lo_id")},inverseJoinColumns = {
  		   @JoinColumn(name="taxoId"),
@@ -87,6 +94,9 @@ public class LearningObjective {
  		   @JoinColumn(name="verbId")})
 	private Set<Type> type = new HashSet<>();
 
+	/*
+	 * Getters and Setters
+	 */
 	public Set<Type> getType() {
 		return type;
 	}
@@ -165,6 +175,17 @@ public class LearningObjective {
 
 	public void setVideo(List<Video> video) {
 		this.video = video;
+	}
+	
+	/*
+	 * Constructors
+	 */
+	public LearningObjective() {
+	}
+
+	public LearningObjective(String lObjective) {
+		super();
+		this.lObjective = lObjective;
 	}
 
 }

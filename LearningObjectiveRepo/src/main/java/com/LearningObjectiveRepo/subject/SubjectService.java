@@ -58,14 +58,14 @@ public class SubjectService {
 
 	public Boolean deleteSubjectBySubjectId(Long sId) {
 		Subject s = subjectRepo.findBySubjectId(sId);
-		if(s!=null)
-		{   for(Topic t : s.getTopic()) {
-			t.setSubject(null);
-			topicRepo.save(t);
-		}
-		s.getField().clear();
-		subjectRepo.deleteFromSubject(sId);
-			//subjectRepo.delete(s);
+		if (s != null) {
+			for (Topic t : s.getTopic()) {
+				t.setSubject(null);
+				topicRepo.save(t);
+			}
+			s.getField().clear();
+			subjectRepo.deleteFromSubject(sId);
+			// subjectRepo.delete(s);
 			return true;
 		}
 		return false;
@@ -73,13 +73,13 @@ public class SubjectService {
 
 	public Boolean deleteTopicBySubjectId(Long sId) {
 		Subject s = subjectRepo.findBySubjectId(sId);
-		if(s!=null)
-		{  s.getTopic();
-		for(Topic t : s.getTopic()) {
-			t.setSubject(null);
-			topicRepo.save(t);
-		}
-			
+		if (s != null) {
+			s.getTopic();
+			for (Topic t : s.getTopic()) {
+				t.setSubject(null);
+				topicRepo.save(t);
+			}
+
 			return true;
 		}
 		return false;
@@ -88,55 +88,50 @@ public class SubjectService {
 	public Boolean deleteTopicBySubjectIdAndTopicId(Long sId, Long tId) {
 		Subject s = subjectRepo.findBySubjectId(sId);
 		Topic t = topicRepo.findByTopicId(tId);
-		if(s!=null && t !=null) {
-			if(t.getSubject()==s) {
-			t.setSubject(null);
-			topicRepo.save(t);
-			return true;
+		if (s != null && t != null) {
+			if (t.getSubject() == s) {
+				t.setSubject(null);
+				topicRepo.save(t);
+				return true;
 			}
 		}
 		return false;
-		
+
 	}
 
 	public Subject getSubjectByTopicId(Long tId) {
 		Topic t = topicRepo.findByTopicId(tId);
-	    return t.getSubject();
+		return t.getSubject();
 	}
+
 	public Boolean updateSubjectByTopicId(Long tId, String subjectName) {
-		Topic t=topicRepo.findByTopicId(tId);
-		Subject s=subjectRepo.findBySubjectName(subjectName);
-		if(t!=null && s!=null)
-		{
+		Topic t = topicRepo.findByTopicId(tId);
+		Subject s = subjectRepo.findBySubjectName(subjectName);
+		if (t != null && s != null) {
 			t.setSubject(s);
 			topicRepo.save(t);
 			return true;
-		}
-		else if(t!=null && s==null)
-		{
-			s=new Subject(subjectName);
+		} else if (t != null && s == null) {
+			s = new Subject(subjectName);
 			subjectRepo.save(s);
 			t.setSubject(s);
 			topicRepo.save(t);
 			return true;
-		}
-			else 
-				return false;
-		
+		} else
+			return false;
+
 	}
-public Boolean updateTopicBySubjectId(Long tId, Long sId) {
-		
-		Topic t=topicRepo.findByTopicId(tId);
-		Subject s=subjectRepo.findBySubjectId(sId);
-		if(t!=null && s!=null)
-		{
+
+	public Boolean updateTopicBySubjectId(Long tId, Long sId) {
+
+		Topic t = topicRepo.findByTopicId(tId);
+		Subject s = subjectRepo.findBySubjectId(sId);
+		if (t != null && s != null) {
 			t.setSubject(s);
 			topicRepo.save(t);
 			return true;
-		}
-		else
+		} else
 			return false;
 	}
-	
 
 }

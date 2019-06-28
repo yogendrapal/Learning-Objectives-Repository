@@ -15,17 +15,19 @@ import com.LearningObjectiveRepo.ExceptionHandling.ResourceNotFoundException;
 import com.LearningObjectiveRepo.UserAccounts.Message;
 import com.LearningObjectiveRepo.level.Level;
 
-
 @RestController
-@CrossOrigin(origins="*",allowedHeaders="*")
-@RequestMapping(value="/api/secured/verbs")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
+@RequestMapping(value = "/api/verbs")
 public class VerbController {
 
 	@Autowired
 	private VerbService verbService;
-	
-	public static class verb{
-		private String verbName;			
+
+	/*
+	 * Internal class to receive String verb name as json object
+	 */
+	public static class verb {
+		private String verbName;
 
 		public String getVerbName() {
 			return verbName;
@@ -34,36 +36,47 @@ public class VerbController {
 		public void setVerbName(String verbName) {
 			this.verbName = verbName;
 		}
-		
+
 	}
-	
+
+	/*
+	 * Create verb individually
+	 */
 	@PreAuthorize("hasAnyRole('Admin','Reviewer')")
-	@RequestMapping(value="",method=RequestMethod.POST)
-	public Message createVerb(@RequestBody verb v)
-	{
+	@RequestMapping(value = "", method = RequestMethod.POST)
+	public Message createVerb(@RequestBody verb v) {
 		String vName = v.getVerbName();
 		verbService.createVerb(vName);
-		 Message m=new Message();
-  		m.setMessage("Verb submitted successfully");
-  		return m;
+		Message m = new Message();
+		m.setMessage("Verb submitted successfully");
+		return m;
 	}
-	@RequestMapping(value="",method=RequestMethod.GET)
-	public List<Verb> getVerb()
-	{
-		List<Verb> v =verbService.getVerb();
+
+	/*
+	 * Read all the verbs from the database
+	 */
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	public List<Verb> getVerb() {
+		List<Verb> v = verbService.getVerb();
 		return v;
 	}
+
+	/*
+	 * Read verb corresponding to a given verb id
+	 */
 	@PreAuthorize("hasAnyRole('Admin','Reviewer','Creator')")
-	@RequestMapping(value="/{verbId}",method=RequestMethod.GET)
-	public Verb readVerbByVerbId(@PathVariable ("verbId") String vId)
-	{
+	@RequestMapping(value = "/{verbId}", method = RequestMethod.GET)
+	public Verb readVerbByVerbId(@PathVariable("verbId") String vId) {
 		Long verbId = Long.parseLong(vId);
-		 Verb v = verbService.readVerbByVerbId(verbId);
+		Verb v = verbService.readVerbByVerbId(verbId);
 		if (v == null)
 			throw new ResourceNotFoundException("Verb id not found - " + verbId);
 		return v;
 	}
-		
+
+	/*
+	 * Update verb corresponding to a given verb id
+	 */
 	@PreAuthorize("hasAnyRole('Admin','Reviewer')")
 	@RequestMapping(value = "/{verbId}", method = RequestMethod.PUT)
 	public Message updateVerbByVerbId(@RequestBody verb v, @PathVariable("verbId") String vid) {
@@ -71,92 +84,88 @@ public class VerbController {
 		Long verbId = Long.parseLong(vid);
 		String verbName = v.getVerbName();
 		verbService.updateVerbByVerbId(verbId, verbName);
-		Message m=new Message();
-  		m.setMessage("Verb updated successfully");
-  		return m;
+		Message m = new Message();
+		m.setMessage("Verb updated successfully");
+		return m;
 	}
-	
+
+	/*
+	 * Create verb corresponding to a given level id
+	 */
 	@PreAuthorize("hasAnyRole('Admin','Reviewer')")
-	@RequestMapping(value="/levels/{lId}",method=RequestMethod.POST)
-	public Message createVerbByLevelId(@RequestBody verb v, @PathVariable ("lId") String id)
-	{
+	@RequestMapping(value = "/levels/{lId}", method = RequestMethod.POST)
+	public Message createVerbByLevelId(@RequestBody verb v, @PathVariable("lId") String id) {
 		String verbName = v.getVerbName();
-		Long lId=Long.parseLong(id);
-		Boolean b=verbService.createVerbByLevelId(verbName,lId);
-		if(b)
-		{
-			Message m=new Message();
-	  		m.setMessage("Verb submitted successfully");
-	  		return m;
-		}
-		else
+		Long lId = Long.parseLong(id);
+		Boolean b = verbService.createVerbByLevelId(verbName, lId);
+		if (b) {
+			Message m = new Message();
+			m.setMessage("Verb submitted successfully");
+			return m;
+		} else
 			throw new ResourceNotFoundException("Level id not found - " + lId);
 	}
-	
+
+	/*
+	 * Read list of verbs related to a given level
+	 */
 	@PreAuthorize("hasAnyRole('Admin','Reviewer','Creator')")
-	@RequestMapping(value="/levels/{lId}",method=RequestMethod.GET)
-	public List<Verb> readVerbByLevelId(@PathVariable ("lId") String Id)
-	{
+	@RequestMapping(value = "/levels/{lId}", method = RequestMethod.GET)
+	public List<Verb> readVerbByLevelId(@PathVariable("lId") String Id) {
 		Long lId = Long.parseLong(Id);
 		List<Verb> l = verbService.readVerbByLevelId(lId);
 		if (l == null || l.isEmpty())
 			throw new ResourceNotFoundException("Level id not found - " + lId);
 		return l;
 	}
-	
+
+	/*
+	 * Read level corresponding to a particular verb id
+	 */
 	@PreAuthorize("hasAnyRole('Admin','Reviewer','Creator')")
-	@RequestMapping(value="/{verbId}/levels",method=RequestMethod.GET)
-	public Level readLevelByVerbId(@PathVariable ("verbId") String vId)
-	{
+	@RequestMapping(value = "/{verbId}/levels", method = RequestMethod.GET)
+	public Level readLevelByVerbId(@PathVariable("verbId") String vId) {
 		Long verbId = Long.parseLong(vId);
-		Level l= verbService.readLevelByVerbId(verbId);
-		if (l == null )
+		Level l = verbService.readLevelByVerbId(verbId);
+		if (l == null)
 			throw new ResourceNotFoundException("Verb id not related to any level - " + vId);
 		return l;
 	}
-	@RequestMapping(value="/{vid}/levels",method=RequestMethod.GET)
 
-	public Level readLevelByVerb(@PathVariable("vid") String vId)
-	{   Long id= Long.parseLong(vId);
-		Level l= verbService.readLevelByVerb(id);
-		if (l == null )
-			throw new ResourceNotFoundException("Verb is not found");
-		return l;
-	}
-
+	/*
+	 * Update the relationship between the given verb id and level id
+	 */
 	@PreAuthorize("hasAnyRole('Admin','Reviewer')")
 	@RequestMapping(value = "/{verbId}/levels/{lId}", method = RequestMethod.PUT)
 	public Message updateLevelByVerbId(@PathVariable("verbId") String vid, @PathVariable("lId") String id) {
 
 		Long verbId = Long.parseLong(vid);
 		Long lId = Long.parseLong(id);
-		Boolean b=verbService.updateLevelByVerbId(verbId, lId);
-		if(b)
-		{
-			Message m=new Message();
-	  		m.setMessage("Verb updated successfully");
-	  		return m;
-		}
-		else
+		Boolean b = verbService.updateLevelByVerbId(verbId, lId);
+		if (b) {
+			Message m = new Message();
+			m.setMessage("Verb updated successfully");
+			return m;
+		} else
 			throw new ResourceNotFoundException("Updation not possible  ");
 	}
-	
+
+	/*
+	 * Delete a particular verb corresponding to the given verb id
+	 */
 	@PreAuthorize("hasAnyRole('Admin')")
-	@RequestMapping(value="/{verbId}",method=RequestMethod.DELETE)
-	public Message deleteVerbByVerbId(@PathVariable ("verbId") String vid)
-	{
+	@RequestMapping(value = "/{verbId}", method = RequestMethod.DELETE)
+	public Message deleteVerbByVerbId(@PathVariable("verbId") String vid) {
 		Long verbId = Long.parseLong(vid);
-		Verb v=verbService.deleteVerbByVerbId(verbId);
-		if(v==null)
-			throw new ResourceNotFoundException("Verb Id not found -  "+verbId);
-		else
-			{
-			Message m=new Message();
-	  		m.setMessage("Verb deleted successfully");
-	  		return m;
-			}
-			
+		Verb v = verbService.deleteVerbByVerbId(verbId);
+		if (v == null)
+			throw new ResourceNotFoundException("Verb Id not found -  " + verbId);
+		else {
+			Message m = new Message();
+			m.setMessage("Verb deleted successfully");
+			return m;
+		}
+
 	}
-	
-	
+
 }

@@ -3,7 +3,6 @@ package com.LearningObjectiveRepo.field;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 
@@ -21,10 +20,6 @@ import com.LearningObjectiveRepo.domain.Domain;
 import com.LearningObjectiveRepo.subject.Subject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
-
-
-
 @Entity
 public class Field {
 
@@ -32,23 +27,20 @@ public class Field {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "field_id")
 	protected long fieldId;
-	
-	
-	
+
 	@Column(name = "field_name")
 	private String fieldName;
-	
-	@ManyToOne(cascade={CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
-	@JoinColumn(name="domain_id")
+
+	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	@JoinColumn(name = "domain_id")
 	private Domain domain;
 
-	@ManyToMany(fetch = FetchType.EAGER,cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
-	@JoinTable(name="subject_field",joinColumns= {@JoinColumn(name="field_id")},inverseJoinColumns = {@JoinColumn(name="subject_id")})
+	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+			CascadeType.REFRESH })
+	@JoinTable(name = "subject_field", joinColumns = { @JoinColumn(name = "field_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "subject_id") })
 	private List<Subject> subject = new ArrayList<Subject>();
 
-	//@OneToMany(mappedBy="field")
-	//private List<Category> category=new ArrayList<>();
-	
 	public long getFieldId() {
 		return fieldId;
 	}
@@ -84,11 +76,11 @@ public class Field {
 	public Field(String fieldName) {
 		super();
 		this.fieldName = fieldName;
-		
+
 	}
 
 	public void setDomain(Domain domain) {
 		this.domain = domain;
 	}
-	
+
 }

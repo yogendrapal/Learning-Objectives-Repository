@@ -2,9 +2,13 @@ package com.LearningObjectiveRepo.UserAccounts;
 
 import java.util.Optional;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UserRepository extends CrudRepository<Users,Long> {
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
 
-	public Optional<Users> findByUsername(String username);
+	public User findOneByUsername(String username);
+
+	public Optional<User> findById(Long id);
 }

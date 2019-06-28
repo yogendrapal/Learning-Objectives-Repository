@@ -13,18 +13,17 @@ public class VerbService {
 
 	@Autowired
 	private VerbRepository vRepository;
-	
+
 	@Autowired
 	private LevelRepository lRepository;
-	
+
 	public void createVerb(String vName) {
-		Verb v=vRepository.findByVerbName(vName);
-		if(v==null)
-		{
-			v=new Verb(vName);
+		Verb v = vRepository.findByVerbName(vName);
+		if (v == null) {
+			v = new Verb(vName);
 			vRepository.save(v);
 		}
-		
+
 	}
 
 	public Verb readVerbByVerbId(Long verbId) {
@@ -43,51 +42,45 @@ public class VerbService {
 			v.setVerbName(verbName);
 		}
 		vRepository.save(v);
-		
+
 	}
 
 	public Boolean createVerbByLevelId(String verbName, Long lId) {
-		Level l=lRepository.findByLevelId(lId);
-		Verb v=vRepository.findByVerbName(verbName);
-		if(l!=null && v!=null)
-		{
+		Level l = lRepository.findByLevelId(lId);
+		Verb v = vRepository.findByVerbName(verbName);
+		if (l != null && v != null) {
 			v.setLevel(l);
 			vRepository.save(v);
 			return true;
-		}
-		else if(l!=null && v==null)
-		{
-			v=new Verb(verbName);
+		} else if (l != null && v == null) {
+			v = new Verb(verbName);
 			v.setLevel(l);
 			vRepository.save(v);
 			return true;
-		}
-		else
+		} else
 			return false;
-		
+
 	}
 
 	public List<Verb> readVerbByLevelId(Long lId) {
-		Level l=lRepository.findByLevelId(lId);
-		if(l!=null)
+		Level l = lRepository.findByLevelId(lId);
+		if (l != null)
 			return l.getVerb();
 		return null;
 	}
 
 	public Level readLevelByVerbId(Long verbId) {
 		Verb v = vRepository.findByVerbId(verbId);
-		if(v!=null)
-		{
+		if (v != null) {
 			return v.getLevel();
 		}
 		return null;
 	}
 
 	public Boolean updateLevelByVerbId(Long verbId, Long lId) {
-		Level l=lRepository.findByLevelId(lId);
+		Level l = lRepository.findByLevelId(lId);
 		Verb v = vRepository.findByVerbId(verbId);
-		if(l!=null && v!=null)
-		{
+		if (l != null && v != null) {
 			v.setLevel(l);
 			vRepository.save(v);
 			return true;
@@ -97,21 +90,20 @@ public class VerbService {
 
 	public Verb deleteVerbByVerbId(Long verbId) {
 		Verb v = vRepository.findByVerbId(verbId);
-		if(v!=null) {
-		vRepository.delete(v);
-		return v;
+		if (v != null) {
+			vRepository.delete(v);
+			return v;
 		}
 		return null;
 	}
 
 	public List<Verb> getVerb() {
-		// TODO Auto-generated method stub
 		return vRepository.findAll();
 	}
 
 	public Level readLevelByVerb(Long vId) {
-		Verb verb  = vRepository.findByVerbId(vId);
-		if(verb!=null) {
+		Verb verb = vRepository.findByVerbId(vId);
+		if (verb != null) {
 			return verb.getLevel();
 		}
 		return null;
