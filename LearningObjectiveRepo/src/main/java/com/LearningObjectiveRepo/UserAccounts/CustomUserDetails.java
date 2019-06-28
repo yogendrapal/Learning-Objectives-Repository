@@ -9,7 +9,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 public class CustomUserDetails extends User implements UserDetails{
 
+
+	
+	private static final long serialVersionUID = 1L;
+
+	public CustomUserDetails(final Users users) {
+
 	public CustomUserDetails(final User users) {
+
         super(users);
     }
 

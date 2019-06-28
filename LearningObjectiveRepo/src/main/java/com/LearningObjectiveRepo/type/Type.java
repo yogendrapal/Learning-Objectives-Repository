@@ -14,7 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 
 import com.LearningObjectiveRepo.LearningObjective;
-import com.LearningObjectiveRepo.field.Field;
+
 import com.LearningObjectiveRepo.level.Level;
 import com.LearningObjectiveRepo.taxonomy.Taxonomy;
 import com.LearningObjectiveRepo.verb.Verb;

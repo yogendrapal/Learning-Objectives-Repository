@@ -11,9 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
-//import com.LearningObjectiveRepo.category.Category;
 import com.LearningObjectiveRepo.subject.Subject;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

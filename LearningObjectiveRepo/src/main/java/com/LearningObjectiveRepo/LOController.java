@@ -22,6 +22,7 @@ import com.LearningObjectiveRepo.video.Video;
 import com.LearningObjectiveRepo.video.VideoIdFromURL;
 
 @RestController
+
 @CrossOrigin(origins="*",allowedHeaders="*")
 @RequestMapping(value = "/api")
 public class LOController {
