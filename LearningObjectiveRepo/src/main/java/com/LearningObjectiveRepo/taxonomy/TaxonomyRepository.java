@@ -8,14 +8,16 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-public interface TaxonomyRepository extends CrudRepository<Taxonomy,String>{
+public interface TaxonomyRepository extends CrudRepository<Taxonomy, String> {
 
 	public Taxonomy findByTaxoName(String taxo);
+
 	public Taxonomy findByTaxoId(Long taxoId);
-	
+
 	@Transactional
 	@Modifying
 	@Query("Delete from Taxonomy where taxo_id= :tId")
-	public void deleteFromTaxo(@Param("tId")Long taxoId);
+	public void deleteFromTaxo(@Param("tId") Long taxoId);
+
 	public List<Taxonomy> findAll();
 }

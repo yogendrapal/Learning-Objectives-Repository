@@ -13,7 +13,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -23,16 +22,24 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-
 /* @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
+=======
+@SuppressWarnings("deprecation")
+>>>>>>> 756f28cf90ae719f8557fed4cc62a98a88dcbe0b
 @Configuration
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
+@EnableWebSecurity
+// Modifying or overriding the default spring boot security.
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
+<<<<<<< HEAD
     private CustomUserDetailsService userDetailsService;
 
     @Override
@@ -80,25 +87,23 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	// This method is for overriding the default AuthenticationManagerBuilder.
 	// We can specify how the user details are kept in the application. It may
 	// be in a database, LDAP or in memory.
-	
-	
-	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(appUserDetailsService).passwordEncoder(getPasswordEncoder());
 	}
+	
+	// this configuration allow the client app to access the this api
+	// all the domain that consume this api must be included in the allowed origins
 
-	// this configuration allow the client app to access the this api 
-	// all the domain that consume this api must be included in the allowed o'rings 
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
-	    return new WebMvcConfigurerAdapter() {
-	        @Override
-	        public void addCorsMappings(CorsRegistry registry) {
-	            registry.addMapping("/**").allowedOrigins("http://localhost:4200");
-	          
-	        }
-	    };
+		return new WebMvcConfigurerAdapter() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/**").allowedOrigins("http://localhost:4200");
+
+			}
+		};
 	}
 	// This method is for overriding some configuration of the WebSecurity
 	// If you want to ignore some request or request patterns then you can
@@ -171,4 +176,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	    return HeaderHttpSessionIdResolver.authenticationInfo(); 
 	}
 */
-}
+
+	}

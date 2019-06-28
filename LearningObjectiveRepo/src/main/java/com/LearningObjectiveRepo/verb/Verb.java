@@ -15,17 +15,19 @@ import com.LearningObjectiveRepo.level.Level;
 public class Verb {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="verb_id")
+	@Column(name = "verb_id")
 	private Long verbId;
-	@Column(name="verb_name")
+
+	@Column(name = "verb_name")
 	private String verbName;
-	
-	@ManyToOne(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
-	@JoinColumn(name="level_id")
+
+	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+	@JoinColumn(name = "level_id")
 	private Level level;
 
-
-
+	/*
+	 * Constructors
+	 */
 	public Verb() {
 		super();
 	}
@@ -35,6 +37,9 @@ public class Verb {
 		this.verbName = verbName;
 	}
 
+	/*
+	 * Getters and setters
+	 */
 	public Long getVerbId() {
 		return verbId;
 	}
@@ -51,7 +56,7 @@ public class Verb {
 		this.verbName = verbName;
 	}
 
-	public  Level getLevel() {
+	public Level getLevel() {
 		return level;
 	}
 
