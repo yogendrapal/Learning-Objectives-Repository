@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import com.LearningObjectiveRepo.field.Field;
 
 
 @RestController
+@CrossOrigin(origins="*",allowedHeaders="*")
 @RequestMapping(value="/api/domains")
 public class DomainController {
 	
@@ -41,6 +43,13 @@ public class DomainController {
 		Domain d=dService.readDomainByDomainId(domainId);
 		if(d==null)
 			throw new ResourceNotFoundException("Domain id not found - " + domainId);
+		return d;
+	}
+	@RequestMapping(value = "", method = RequestMethod.GET)
+	public List<Domain> readDomain() {
+		List<Domain> d=dService.readDomain();
+		if(d==null)
+			throw new ResourceNotFoundException("Domain not found - ");
 		return d;
 	}
 	

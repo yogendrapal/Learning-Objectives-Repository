@@ -137,7 +137,7 @@ public  class User implements UserDetails{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public static enum Role{ Creator }
+	//public static enum Role{ Creator }
 	/**
 	 * Description of the property id.
 	 */
@@ -200,7 +200,7 @@ public  class User implements UserDetails{
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Collection<GrantedAuthority> authorities = new ArrayList<>();
-		authorities.add(new SimpleGrantedAuthority(role));
+		authorities.add(new SimpleGrantedAuthority("ROLE_"+role));
 		return authorities;
 	}
 

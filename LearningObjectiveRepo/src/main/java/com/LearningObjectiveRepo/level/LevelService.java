@@ -30,12 +30,16 @@ public class LevelService {
 			levelRepository.save(level);
 		}
 	}
-	public Taxonomy createLevelByTaxonomy(Long taxoId,Level lvl) {
+	public Taxonomy createLevelByTaxonomy(Long taxoId,level lvl) {
 		Taxonomy taxo = tRepository.findByTaxoId(taxoId);
 		Level level = levelRepository.findByLevelName(lvl.getLevelName());
 		if(taxo != null && level == null ) {
-		lvl.setTaxo(taxo);
-		levelRepository.save(lvl);
+	
+		String encodedString = Base64.getEncoder().encodeToString(lvl.getLevelDescription().getBytes());
+		byte[] decodedBytes = Base64.getDecoder().decode(encodedString);
+	    level=new Level(lvl.getLevelName(),decodedBytes);
+		level.setTaxo(taxo);
+		levelRepository.save(level);
 		return taxo;
 		}
 		else if(taxo != null && level != null) {

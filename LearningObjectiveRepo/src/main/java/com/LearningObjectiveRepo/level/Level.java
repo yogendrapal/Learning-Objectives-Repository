@@ -47,6 +47,14 @@ public class Level {
 	@JoinColumn(name="taxo_id")
 	private Taxonomy taxo;
 	
+	public byte[] getLevelDescription() {
+		return levelDescription;
+	}
+
+	public void setLevelDescription(byte[] levelDescription) {
+		this.levelDescription = levelDescription;
+	}
+
 	@OneToMany(mappedBy="level",cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	private List<Verb> verb = new ArrayList<>();
 	public Level() {

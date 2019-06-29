@@ -77,7 +77,7 @@ public class UserController {
 					new CustomErrorType("user with username " + newUser.getUsername() + "already exist "),
 					HttpStatus.CONFLICT);
 		}
-		newUser.setRole("Creator");
+		newUser.setRole("Reviewer");
 		
 		return new ResponseEntity<User>(userService.save(newUser), HttpStatus.CREATED);
 	}

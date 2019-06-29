@@ -26,11 +26,15 @@ public class TaxonomyService {
 	
 	public void createTaxo(Taxo t2) {
 	Taxonomy t=tRepository.findByTaxoName(t2.getTaxoName());
+	System.out.println(t);
+	System.out.println(t2.getTaxoName());
 	if(t==null)
-	{
+	{   System.out.println(t2.getTaxoName());
 		String encodedString = Base64.getEncoder().encodeToString(t2.getTaxodescription().getBytes());
+		System.out.println(t2.getTaxoName());
 		byte[] decodedBytes = Base64.getDecoder().decode(encodedString);
 		t=new Taxonomy(t2.getTaxoName(),decodedBytes);
+		System.out.println(t2.getTaxoName());
 		tRepository.save(t);
 	}
 	}

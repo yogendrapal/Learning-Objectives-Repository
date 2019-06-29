@@ -64,7 +64,7 @@ public class LevelController {
 	
 	@PreAuthorize("hasAnyRole('Admin','Reviewer')")
 	@RequestMapping(value = "/taxonomies/{taxoid}", method = RequestMethod.POST)
-	public Message createLevelByTaxonomy(@PathVariable("taxoid") String taxoId ,@RequestBody Level lvl) {
+	public Message createLevelByTaxonomy(@PathVariable("taxoid") String taxoId ,@RequestBody level lvl) {
 		Long tId = Long.parseLong(taxoId);
 		Taxonomy t = levelService.createLevelByTaxonomy(tId,lvl);
 		if(t!=null)

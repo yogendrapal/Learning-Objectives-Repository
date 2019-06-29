@@ -82,8 +82,9 @@ public class LearningObjective {
 	
 	@ManyToMany(fetch = FetchType.EAGER,cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	@JoinTable(name="lo_type",joinColumns= {@JoinColumn(name="lo_id")},inverseJoinColumns = {
- 		   @JoinColumn(name="taxoId"),
+ 		   
  		   @JoinColumn(name="levelId"),
+ 		  @JoinColumn(name="taxoId"),
  		   @JoinColumn(name="verbId")})
 	private Set<Type> type = new HashSet<>();
 
@@ -151,7 +152,7 @@ public class LearningObjective {
 		this.lObjective = lObjective;
 	}
 
-	public Set<Category> getCategory() {
+	public @JsonIgnore Set<Category> getCategory() {
 		return category;
 	}
 
