@@ -1,9 +1,10 @@
 package com.LearningObjectiveRepo.subjectandfield;
 
-import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import com.LearningObjectiveRepo.subject.Subject;
  * Controller to create api's for the mapping between subject and field
  */
 @RestController
+@CrossOrigin(origins="*",allowedHeaders="*")
 @RequestMapping(value = "/api")
 public class SubjectAndFieldController {
 
@@ -88,9 +90,9 @@ public class SubjectAndFieldController {
 	 */
 	@PreAuthorize("hasAnyRole('Admin','Reviewer','Creator')")
 	@RequestMapping(value = "/fields/subjects/{subid}", method = RequestMethod.GET)
-	public @ResponseBody List<Field> readFieldBySubjectId(@PathVariable("subid") String subId) {
+	public @ResponseBody Set<Field> readFieldBySubjectId(@PathVariable("subid") String subId) {
 		Long sId = Long.parseLong(subId);
-		List<Field> field = subFieldService.readFieldBySubjectId(sId);
+		Set<Field> field = subFieldService.readFieldBySubjectId(sId);
 		if (field == null)
 			throw new ResourceNotFoundException("Subject id not found - " + subId);
 		return field;
@@ -101,9 +103,9 @@ public class SubjectAndFieldController {
 	 */
 	@PreAuthorize("hasAnyRole('Admin','Reviewer','Creator')")
 	@RequestMapping(value = "/subjects/fields/{fieldid}", method = RequestMethod.GET)
-	public @ResponseBody List<Subject> readSubjectByFieldId(@PathVariable("fieldid") String fieldId) {
+	public @ResponseBody Set<Subject> readSubjectByFieldId(@PathVariable("fieldid") String fieldId) {
 		Long fId = Long.parseLong(fieldId);
-		List<Subject> sub = subFieldService.readSubjectByFieldId(fId);
+		Set<Subject> sub = subFieldService.readSubjectByFieldId(fId);
 		if (sub == null)
 			throw new ResourceNotFoundException("Field id not found - " + fieldId);
 		return sub;
@@ -113,7 +115,7 @@ public class SubjectAndFieldController {
 	 * Update subjects for a particular field id
 	 */
 	@PreAuthorize("hasAnyRole('Admin','Reviewer')")
-	@RequestMapping(value = "/subjects/fields/fieldid", method = RequestMethod.PUT)
+	@RequestMapping(value = "/subjects/fields/{fieldid}", method = RequestMethod.PUT)
 	public Message updateFieldBySubject(@RequestBody Subject sub, @PathVariable("fieldid") String fieldId) {
 		Long fId = Long.parseLong(fieldId);
 		Boolean b = subFieldService.updateFieldBySubject(sub, fId);

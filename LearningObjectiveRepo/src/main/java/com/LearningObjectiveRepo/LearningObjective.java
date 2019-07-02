@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +16,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-
 import com.LearningObjectiveRepo.category.Category;
 import com.LearningObjectiveRepo.taxonomy.Taxonomy;
 import com.LearningObjectiveRepo.type.Type;
@@ -31,8 +29,7 @@ public class LearningObjective {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "lo_id")
 	private long loId;
-	
-	
+
 	@Column(name = "lo_objective")
 	private String lObjective;
 
@@ -58,7 +55,7 @@ public class LearningObjective {
 	@ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
 	@JoinColumn(name = "lo_parent")
 	private LearningObjective lo_parent;
-	@OneToMany(mappedBy="lo_parent")
+	@OneToMany(mappedBy = "lo_parent")
 	private List<LearningObjective> lo_child = new ArrayList<LearningObjective>();
 
 	/*
@@ -76,28 +73,27 @@ public class LearningObjective {
 	/*
 	 * Many to Many relationship between Lo and category(domain,field,subject,topic)
 	 */
-	@ManyToMany(fetch = FetchType.EAGER,cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
-	@JoinTable(name="lo_category",joinColumns= {@JoinColumn(name="lo_id")},inverseJoinColumns = {
- 		   @JoinColumn(name="domainId"),
- 		   @JoinColumn(name="fieldId"),
- 		   @JoinColumn(name="subjectId"),
- 		   @JoinColumn(name="topicId")})
+	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+			CascadeType.REFRESH })
+	@JoinTable(name = "lo_category", joinColumns = { @JoinColumn(name = "lo_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "domainId"), @JoinColumn(name = "fieldId"), @JoinColumn(name = "subjectId"),
+			@JoinColumn(name = "topicId") })
 	private Set<Category> category = new HashSet<>();
-	
+
 	/*
 	 * Many to Many relationship between Lo and type(taxonomy,level,verb)
 	 */
-	@ManyToMany(fetch = FetchType.EAGER,cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
-	@JoinTable(name="lo_type",joinColumns= {@JoinColumn(name="lo_id")},inverseJoinColumns = {
- 		   @JoinColumn(name="taxoId"),
- 		   @JoinColumn(name="levelId"),
- 		   @JoinColumn(name="verbId")})
+	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+			CascadeType.REFRESH })
+	@JoinTable(name = "lo_type", joinColumns = { @JoinColumn(name = "lo_id") }, inverseJoinColumns = {
+
+			@JoinColumn(name = "levelId"), @JoinColumn(name = "taxoId"), @JoinColumn(name = "verbId") })
 	private Set<Type> type = new HashSet<>();
 
 	/*
 	 * Getters and Setters
 	 */
-	public Set<Type> getType() {
+	public @JsonIgnore Set<Type> getType() {
 		return type;
 	}
 
@@ -161,7 +157,7 @@ public class LearningObjective {
 		this.lObjective = lObjective;
 	}
 
-	public Set<Category> getCategory() {
+	public @JsonIgnore Set<Category> getCategory() {
 		return category;
 	}
 
@@ -176,7 +172,7 @@ public class LearningObjective {
 	public void setVideo(List<Video> video) {
 		this.video = video;
 	}
-	
+
 	/*
 	 * Constructors
 	 */

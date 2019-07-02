@@ -161,6 +161,12 @@ public class DomainService {
 		}
 		return false;
 	}
+
+
+	public List<Domain> readDomain() {
+		
+		return dRepository.findAll();
+	}
 	
 
 }

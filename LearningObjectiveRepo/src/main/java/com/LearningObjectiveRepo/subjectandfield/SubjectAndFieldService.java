@@ -1,6 +1,6 @@
 package com.LearningObjectiveRepo.subjectandfield;
 
-import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,7 +66,7 @@ public class SubjectAndFieldService {
 			return false;
 	}
 
-	public List<Field> readFieldBySubjectId(Long subId) {
+	public Set<Field> readFieldBySubjectId(Long subId) {
 
 		Subject s = srepo.findBySubjectId(subId);
 		if (s != null) {
@@ -76,7 +76,7 @@ public class SubjectAndFieldService {
 		return null;
 	}
 
-	public List<Subject> readSubjectByFieldId(Long fId) {
+	public Set<Subject> readSubjectByFieldId(Long fId) {
 		Field f = fRepository.findByFieldId(fId);
 		if (f != null) {
 			return f.getSubject();

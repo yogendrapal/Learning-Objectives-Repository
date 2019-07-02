@@ -180,7 +180,6 @@ public class LOController {
 			throw new ResourceNotFoundException("Learning Objective id not found - " + loId);
 		return lo;
 	}
-	@PreAuthorize("hasAnyRole('Admin','Reviewer','Creator')")
 	@RequestMapping(value = "/los", method = RequestMethod.GET)
 	public @ResponseBody List<LearningObjective> readAllLo() {
 

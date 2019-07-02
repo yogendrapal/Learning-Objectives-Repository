@@ -43,10 +43,15 @@ public class Type {
 	@JoinColumn(name = "verbId")
 	private Verb verb;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
-			CascadeType.REFRESH })
-	@JoinTable(name = "lo_type", joinColumns = { @JoinColumn(name = "taxoId"), @JoinColumn(name = "levelId"),
-			@JoinColumn(name = "verbId") }, inverseJoinColumns = { @JoinColumn(name = "lo_id") })
+	
+	@ManyToMany(fetch = FetchType.EAGER,cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+	@JoinTable(name="lo_type",
+	           joinColumns= {
+	        		  
+	        		   @JoinColumn(name="levelId"),
+	        		   @JoinColumn(name="taxoId"),
+	        		   @JoinColumn(name="verbId")},inverseJoinColumns = {@JoinColumn(name="lo_id")})
+
 	private Set<LearningObjective> lo = new HashSet<>();
 
 	public TypeId gettId() {

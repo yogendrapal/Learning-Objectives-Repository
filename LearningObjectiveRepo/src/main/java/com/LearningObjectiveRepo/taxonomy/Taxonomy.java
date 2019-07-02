@@ -74,6 +74,7 @@ public class Taxonomy {
 		this.taxoDescription = taxoDescription;
 	}
 
+	
 	public Long getTaxoId() {
 		return taxoId;
 	}
@@ -105,5 +106,4 @@ public class Taxonomy {
 	public void setLevel(List<Level> level) {
 		this.level = level;
 	}
-
 }

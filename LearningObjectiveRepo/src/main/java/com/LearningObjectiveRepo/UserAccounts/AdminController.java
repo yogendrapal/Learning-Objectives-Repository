@@ -1,9 +1,11 @@
 package com.LearningObjectiveRepo.UserAccounts;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@CrossOrigin(origins="*",allowedHeaders="*")
 @PreAuthorize("hasAnyRole('Admin')")
 @RequestMapping(value = "/api/admin")
 public class AdminController {
@@ -25,6 +28,12 @@ public class AdminController {
 	public List<User> getAllUsers() {
 		List<User> users = uService.getAllUsers();
 		return users;
+	}
+	@RequestMapping(value = "/users/{uId}", method = RequestMethod.GET)
+	public Optional<User> getUserById(@PathVariable("uId") String id) {
+		Long userId = Long.parseLong(id);
+		Optional<User> user = uService.getUserById(userId);
+		return user;
 	}
 
 	public static class Role {

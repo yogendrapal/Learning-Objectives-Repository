@@ -19,7 +19,7 @@ public class RoleController {
 	@Autowired
 	private RoleService rService;
 	
-	//@PreAuthorize("hasAnyRole('Admin')")
+	@PreAuthorize("hasAnyRole('Admin')")
 	@RequestMapping(value = "", method = RequestMethod.POST)
 	public Message createRole(@RequestBody Role role) {
 		

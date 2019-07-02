@@ -72,8 +72,8 @@ public class FieldService {
 			fRepository.save(field);
 			return d;
 		} else if (d != null && f != null) {
-			field.setDomain(d);
-			fRepository.save(field);
+			f.setDomain(d);
+			fRepository.save(f);
 			return d;
 		}
 		return null;

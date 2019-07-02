@@ -13,8 +13,6 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-
 
 @Entity
 @Table(name = "User")
@@ -27,7 +25,6 @@ public class User implements UserDetails {
 
 
 	public static enum Role{ Creator }
-
 	/**
 	 * Description of the property id.
 	 */
@@ -93,7 +90,6 @@ public class User implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Collection<GrantedAuthority> authorities = new ArrayList<>();
-
 		authorities.add(new SimpleGrantedAuthority("ROLE_"+role));
 		return authorities;
 	}

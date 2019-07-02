@@ -25,6 +25,7 @@ public class TaxonomyService {
 	private LevelRepository lRepository;
 
 	public void createTaxo(Taxo t2) {
+
 		Taxonomy t = tRepository.findByTaxoName(t2.getTaxoName());
 		if (t == null) {
 			String encodedString = Base64.getEncoder().encodeToString(t2.getTaxodescription().getBytes());
@@ -32,6 +33,7 @@ public class TaxonomyService {
 			t = new Taxonomy(t2.getTaxoName(), decodedBytes);
 			tRepository.save(t);
 		}
+
 	}
 
 	public Taxonomy readTaxoByTaxoId(Long taxoId) {

@@ -1,24 +1,9 @@
 package com.LearningObjectiveRepo.UserAccounts;
 
 import java.security.Principal;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -116,6 +101,7 @@ public class UserController {
 	private UserService userService;
 
 	// request method to create a new account by a guest
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@CrossOrigin
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public ResponseEntity<?> createUser(@RequestBody User newUser) {
@@ -137,26 +123,5 @@ public class UserController {
 		logger.info("user logged "+principal);
 		return principal;
 	}
-	/*
-	@GetMapping("/")
-	String uid(HttpSession session) {
-		System.out.println(session.getId());
-		return session.getId();
-	} */
-	/*
-	 @RequestMapping("/token")
-	  public Map<String,String> token(HttpSession session) {
-		 System.out.println(session.getId());
-	    return Collections.singletonMap("token", session.getId());
-	  }
-
-	 @RequestMapping(value="/logout", method=RequestMethod.GET)
-	 @ResponseStatus(HttpStatus.NO_CONTENT)
-	 public void logout(HttpSession session)
-	 {
-		 session.invalidate();
-		
-	 }
-	 */
-
+	
 }

@@ -1,7 +1,9 @@
 package com.LearningObjectiveRepo.subject;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -14,7 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-
 import com.LearningObjectiveRepo.field.Field;
 import com.LearningObjectiveRepo.topic.Topic;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -43,7 +44,7 @@ public class Subject {
 			CascadeType.REFRESH })
 	@JoinTable(name = "subject_field", joinColumns = { @JoinColumn(name = "subject_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "field_id") })
-	private List<Field> field = new ArrayList<Field>();
+	private Set<Field> field = new HashSet<>();
 
 	/*
 	 * Constructors
@@ -84,11 +85,11 @@ public class Subject {
 		this.subjectName = subjectName;
 	}
 
-	public List<Field> getField() {
+	public Set<Field> getField() {
 		return field;
 	}
 
-	public void setField(List<Field> field) {
+	public void setField(Set<Field> field) {
 		this.field = field;
 	}
 
