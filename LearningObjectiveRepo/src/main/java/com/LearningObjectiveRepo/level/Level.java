@@ -31,6 +31,9 @@ public class Level {
 	@Column(name="level_name")
 	private String levelName;
 
+	/*
+	 * Blob attribute type to accept description in the form of formatted text as well
+	 */
 	@Basic(fetch = FetchType.LAZY)
 	@Lob
 	@Column(length=5000)

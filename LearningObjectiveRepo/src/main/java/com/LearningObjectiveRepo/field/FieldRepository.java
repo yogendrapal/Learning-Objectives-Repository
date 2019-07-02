@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 public interface FieldRepository extends CrudRepository<Field,Long>{
 
 	public Field findByFieldId(Long fieldId);
+	
 	public Field findByFieldName(String fieldName);
 	
 	@Transactional

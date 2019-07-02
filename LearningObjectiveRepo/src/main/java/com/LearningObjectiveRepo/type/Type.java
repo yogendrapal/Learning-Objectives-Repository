@@ -14,28 +14,35 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 
 import com.LearningObjectiveRepo.LearningObjective;
-import com.LearningObjectiveRepo.field.Field;
+
 import com.LearningObjectiveRepo.level.Level;
 import com.LearningObjectiveRepo.taxonomy.Taxonomy;
 import com.LearningObjectiveRepo.verb.Verb;
 
 @Entity
 public class Type {
-	
+
+	/*
+	 * taxonomyId,levelId,verbId as composite primary key
+	 */
 	@EmbeddedId
 	private TypeId tId;
-	
-	@ManyToOne @MapsId("taxoId")
-	@JoinColumn(name="taxoId")
+
+	@ManyToOne
+	@MapsId("taxoId")
+	@JoinColumn(name = "taxoId")
 	private Taxonomy taxonomy;
-	
-	@ManyToOne @MapsId("levelId")
-	@JoinColumn(name="levelId")
+
+	@ManyToOne
+	@MapsId("levelId")
+	@JoinColumn(name = "levelId")
 	private Level level;
-	
-	@ManyToOne @MapsId("verbId")
-	@JoinColumn(name="verbId")
+
+	@ManyToOne
+	@MapsId("verbId")
+	@JoinColumn(name = "verbId")
 	private Verb verb;
+
 	
 	@ManyToMany(fetch = FetchType.EAGER,cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	@JoinTable(name="lo_type",
@@ -44,6 +51,7 @@ public class Type {
 	        		   @JoinColumn(name="levelId"),
 	        		   @JoinColumn(name="taxoId"),
 	        		   @JoinColumn(name="verbId")},inverseJoinColumns = {@JoinColumn(name="lo_id")})
+
 	private Set<LearningObjective> lo = new HashSet<>();
 
 	public TypeId gettId() {
@@ -94,7 +102,5 @@ public class Type {
 	public Type() {
 		super();
 	}
-	
-	
 
 }

@@ -14,47 +14,60 @@ import com.LearningObjectiveRepo.UserAccounts.Message;
 @CrossOrigin(origins="*",allowedHeaders="*")
 @RequestMapping(value="/api/types")
 public class TypeController {
-	
+
 	@Autowired
 	private TypeService tService;
-	
-	public static class LoType{
+
+	/*
+	 * Internal class to embed all the attributes in a single json object
+	 */
+	public static class LoType {
 		private String lo;
 		private String taxoId;
 		private String levelId;
 		private String verbId;
+
 		public String getLo() {
 			return lo;
 		}
+
 		public void setLo(String lo) {
 			this.lo = lo;
 		}
+
 		public String getTaxoId() {
 			return taxoId;
 		}
+
 		public void setTaxoId(String taxoId) {
 			this.taxoId = taxoId;
 		}
+
 		public String getLevelId() {
 			return levelId;
 		}
+
 		public void setLevelId(String levelId) {
 			this.levelId = levelId;
 		}
+
 		public String getVerbId() {
 			return verbId;
 		}
+
 		public void setVerbId(String verbId) {
 			this.verbId = verbId;
 		}
-		
+
 	}
-	
+
+	/*
+	 * create the relationship between learning objective and it's type
+	 */
 	@PreAuthorize("hasAnyRole('Admin','Reviewer','Creator')")
-	@RequestMapping(value="",method=RequestMethod.POST)
-	public Message createType(@RequestBody LoType loType)
-	{
-		Message m=tService.createType(loType);
+	@RequestMapping(value = "", method = RequestMethod.POST)
+	public Message createType(@RequestBody LoType loType) {
+		Message m = tService.createType(loType);
 		return m;
 	}
 

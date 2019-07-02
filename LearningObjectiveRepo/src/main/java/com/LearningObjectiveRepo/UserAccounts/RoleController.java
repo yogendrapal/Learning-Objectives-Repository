@@ -28,9 +28,9 @@ public class RoleController {
 
 	}
 	@PreAuthorize("hasAnyRole('Admin','Reviewer','Creator')")
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	@RequestMapping(value = "/secured", method = RequestMethod.GET)
 	public List<Role> getRoles() {
-		
+	
 		List<Role> r=rService.getRoles();
 		if(r.isEmpty())
 		{

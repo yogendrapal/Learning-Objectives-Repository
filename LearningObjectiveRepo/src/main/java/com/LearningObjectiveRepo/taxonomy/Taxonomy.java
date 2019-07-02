@@ -17,51 +17,45 @@ import javax.persistence.OneToMany;
 import com.LearningObjectiveRepo.LearningObjective;
 import com.LearningObjectiveRepo.level.Level;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Taxonomy {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="taxo_id")
+	@Column(name = "taxo_id")
 	private Long taxoId;
-	@Column(name="taxo_name")
-	private String taxoName;
-	
-	@OneToMany(mappedBy="taxonomy",cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
-	private List<LearningObjective> lo=new ArrayList<>();
-	
-	@OneToMany(mappedBy="taxo",cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
-	private List<Level> level = new ArrayList<>();
 
+	@Column(name = "taxo_name")
+	private String taxoName;
+
+	/*
+	 * Blob attribute type to accept description in the form of formatted text as
+	 * well
+	 */
 	@Basic(fetch = FetchType.LAZY)
 	@Lob
-	@Column(length=5000)
-	private byte[]  taxoDescription =new byte[0];
-	
+	@Column(length = 5000)
+	private byte[] taxoDescription = new byte[0];
 
+	@OneToMany(mappedBy = "taxonomy", cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+			CascadeType.REFRESH })
+	private List<LearningObjective> lo = new ArrayList<>();
+
+	@OneToMany(mappedBy = "taxo", cascade = { CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST,
+			CascadeType.REFRESH })
+	private List<Level> level = new ArrayList<>();
+
+	/*
+	 * Constructors
+	 */
 	public Taxonomy() {
 		super();
 	}
-
-	
 
 	public Taxonomy(String taxoName) {
 		super();
 		this.taxoName = taxoName;
 	}
-
-
-
-	public byte[] getTaxoDescription() {
-		return taxoDescription;
-	}
-
-
-
-	public void setTaxoDescription(byte[] taxoDescription) {
-		this.taxoDescription = taxoDescription;
-	}
-
-
 
 	public Taxonomy(String taxoName, byte[] taxoDescription) {
 		super();
@@ -69,6 +63,18 @@ public class Taxonomy {
 		this.taxoDescription = taxoDescription;
 	}
 
+	/*
+	 * Getters and Setters
+	 */
+	public byte[] getTaxoDescription() {
+		return taxoDescription;
+	}
+
+	public void setTaxoDescription(byte[] taxoDescription) {
+		this.taxoDescription = taxoDescription;
+	}
+
+	
 	public Long getTaxoId() {
 		return taxoId;
 	}
@@ -100,5 +106,4 @@ public class Taxonomy {
 	public void setLevel(List<Level> level) {
 		this.level = level;
 	}
-	
 }

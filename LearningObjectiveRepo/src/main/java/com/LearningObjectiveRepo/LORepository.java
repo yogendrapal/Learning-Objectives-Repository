@@ -19,6 +19,7 @@ public interface LORepository extends CrudRepository<LearningObjective, Long> {
 	@Modifying
 	@Query("Delete from LearningObjective where lo_id= :lId")
 	public void deleteFromLo(@Param("lId")Long loId);
+	
 	public List<LearningObjective> findAll();
 
 }
